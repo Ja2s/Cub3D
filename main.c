@@ -1,14 +1,15 @@
 /* ************************************************************************** */
-/*																			*/
-/*														:::	  ::::::::   */
-/*   main.c											 :+:	  :+:	:+:   */
-/*													+:+ +:+		 +:+	 */
-/*   By: jgavairo <jgavairo@student.42.fr>		  +#+  +:+	   +#+		*/
-/*												+#+#+#+#+#+   +#+		   */
-/*   Created: 2024/07/17 13:31:54 by jgavairo		  #+#	#+#			 */
-/*   Updated: 2024/07/18 00:16:21 by jgavairo		 ###   ########.fr	   */
-/*																			*/
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/18 11:18:24 by jgavairo          #+#    #+#             */
+/*   Updated: 2024/07/18 11:43:52 by jgavairo         ###   ########.fr       */
+/*                                                                            */
 /* ************************************************************************** */
+
 
 #include "cub3d.h"
 #include <stdio.h>
@@ -34,15 +35,15 @@ void map_init(t_data *data)
 		i++;
 	}
 	data->map[0] = "1111111111";
-	data->map[1] = "1000000001";
-	data->map[2] = "1000000001";
-	data->map[3] = "10000E0001";
-	data->map[4] = "1000000001";
-	data->map[5] = "1000000001";
-	data->map[6] = "1000000001";
-	data->map[7] = "1000000001";
-	data->map[8] = "1000000001";
-	data->map[9] = "1000000001";
+	data->map[1] = "1010000001";
+	data->map[2] = "1010000001";
+	data->map[3] = "10100E0001";
+	data->map[4] = "1010000001";
+	data->map[5] = "1010000001";
+	data->map[6] = "1000111001";
+	data->map[7] = "1010100001";
+	data->map[8] = "1010111001";
+	data->map[9] = "1010001001";
 	data->map[10] = "1111111111";
 	data->map[11] = NULL;
 }
@@ -56,19 +57,19 @@ void	load_textures(t_data *data, t_texture *texture, char *path)
 
 void data_init(t_data *data)
 {
-	data->width = 800;
-	data->height = 600;
+	data->width = 1200;
+	data->height = 800;
 	map_init(data);
 	data->mlx = mlx_init();
 	data->win = mlx_new_window(data->mlx, data->width, data->height, "Cub3D");
 	data->img = mlx_new_image(data->mlx, data->width, data->height);
 	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
-	data->floor_color = 0x87CEEB;
-	data->sky_color = 0x8B4513;
-	load_textures(data, &data->textures[0], "textures/eagle.xpm");
-	load_textures(data, &data->textures[1], "textures/greystone.xpm");
-	load_textures(data, &data->textures[2], "textures/purplestone.xpm");
-	load_textures(data, &data->textures[3], "textures/red.xpm");
+	data->floor_color = 0x8B4513;
+	data->sky_color = 0x323c43;
+	load_textures(data, &data->textures[0], "textures/text1.xpm");
+	load_textures(data, &data->textures[1], "textures/text1.xpm");
+	load_textures(data, &data->textures[2], "textures/text2.xpm");
+	load_textures(data, &data->textures[3], "textures/text2.xpm");
 }
 
 void player_init(t_player *player)
@@ -102,69 +103,143 @@ void	draw_floor_and_sky(t_data *data)
 		while (x < data->width)
 		{
 			if (y < data->height / 2)
-				my_mlx_pixel_put(data, x, y, data->floor_color);
-			else
 				my_mlx_pixel_put(data, x, y, data->sky_color);
+			else
+				my_mlx_pixel_put(data, x, y, data->floor_color);
 			x++;
 		}
 		y++;
 	}
 }
 
-int key_press(int keycode, t_data *data)
+//permet de checker la case ou nous allons aller pour le prochain deplacement voir si cest un mur
+int	is_wall(t_data *data, double x, double y)
 {
+	int map_x;
+	int map_y;
+	
+	//permet de check un poil plus loin que le player, ce qui permet en quelaque sorte de si;uler une hitbox
+	x += data->player.dir_x * 0.07;
+	y += data->player.dir_y * 0.07;
 
+	map_x = (int)x;
+	map_y = (int)y;
+	if (data->map[map_y][map_x] == '1')
+		return (-1);
+	return (0);
+}
+
+void fordward(t_data *data)
+{
+	double new_pos_x;
+	double new_pos_y;
+
+	new_pos_x = data->player.pos_x + data->player.dir_x * data->player.move_speed;
+	new_pos_y = data->player.pos_y + data->player.dir_y * data->player.move_speed;
+	if (is_wall(data, new_pos_x, new_pos_y) == 0)
+	{
+		data->player.pos_x = new_pos_x;
+		data->player.pos_y = new_pos_y;		
+	}
+}
+
+void move_back(t_data *data)
+{
+	double new_pos_x;
+	double new_pos_y;
+	
+	new_pos_x = data->player.pos_x - data->player.dir_x * data->player.move_speed;
+	new_pos_y = data->player.pos_y - data->player.dir_y * data->player.move_speed;
+	if (is_wall(data, new_pos_x, new_pos_y) == 0)
+	{
+		data->player.pos_x = new_pos_x;
+		data->player.pos_y = new_pos_y;		
+	}
+}
+
+void rotate_left(t_data *data)
+{
+	double old_dir_x;
+	double old_plane_x;
+
+	old_dir_x = data->player.dir_x;
+	data->player.dir_x = data->player.dir_x * cos(0.05) - data->player.dir_y * sin(0.05);
+	data->player.dir_y = old_dir_x * sin(0.05) + data->player.dir_y * cos(0.05);
+	old_plane_x = data->player.plane_x;
+	data->player.plane_x = data->player.plane_x * cos(0.05) - data->player.plane_y * sin(0.05);
+	data->player.plane_y = old_plane_x * sin(0.05) + data->player.plane_y * cos(0.05);
+}
+
+void rotate_right(t_data *data)
+{
+	double old_dir_x;
+	double old_plane_x;
+
+	old_dir_x = data->player.dir_x;
+	data->player.dir_x = data->player.dir_x * cos(-0.05) - data->player.dir_y * sin(-0.05);
+	data->player.dir_y = old_dir_x * sin(-0.05) + data->player.dir_y * cos(-0.05);
+	old_plane_x = data->player.plane_x;
+	data->player.plane_x = data->player.plane_x * cos(-0.05) - data->player.plane_y * sin(-0.05);
+	data->player.plane_y = old_plane_x * sin(-0.05) + data->player.plane_y * cos(-0.05);
+}
+
+void move_left(t_data *data)
+{
 	double perp_x;
 	double perp_y;
+	double new_pos_x;
+	double new_pos_y;
+
+	perp_x = data->player.dir_y;
+	perp_y = -data->player.dir_x;
+	new_pos_x = data->player.pos_x + perp_x * (data->player.move_speed / 2);
+	new_pos_y = data->player.pos_y + perp_y * (data->player.move_speed / 2);
+	if (is_wall(data, new_pos_x, new_pos_y) == 0)
+	{
+		data->player.pos_x = new_pos_x;
+		data->player.pos_y = new_pos_y;		
+	}
+}
+
+void move_right(t_data *data)
+{
+	double perp_x;
+	double perp_y;
+	double new_pos_x;
+	double new_pos_y;
+
+	perp_x = -data->player.dir_y;
+	perp_y = data->player.dir_x;
+	new_pos_x = data->player.pos_x + perp_x * (data->player.move_speed / 2);
+	new_pos_y = data->player.pos_y + perp_y * (data->player.move_speed / 2);
+	if (is_wall(data, new_pos_x, new_pos_y) == 0)
+	{
+		data->player.pos_x = new_pos_x;
+		data->player.pos_y = new_pos_y;		
+	}
+}
+
+int key_press(int keycode, t_data *data)
+{
 	printf("keycode = %d\n", keycode);
 	if (keycode == 100)
-	{
-		double old_dir_x = data->player.dir_x;
-		data->player.dir_x = data->player.dir_x * cos(-0.05) - data->player.dir_y * sin(-0.05);
-		data->player.dir_y = old_dir_x * sin(-0.05) + data->player.dir_y * cos(-0.05);
-		double old_plane_x = data->player.plane_x;
-		data->player.plane_x = data->player.plane_x * cos(-0.05) - data->player.plane_y * sin(-0.05);
-		data->player.plane_y = old_plane_x * sin(-0.05) + data->player.plane_y * cos(-0.05);
-	}
+		rotate_right(data);
 	else if (keycode == 97)
-	{
-		double old_dir_x = data->player.dir_x;
-		data->player.dir_x = data->player.dir_x * cos(0.05) - data->player.dir_y * sin(0.05);
-		data->player.dir_y = old_dir_x * sin(0.05) + data->player.dir_y * cos(0.05);
-		double old_plane_x = data->player.plane_x;
-		data->player.plane_x = data->player.plane_x * cos(0.05) - data->player.plane_y * sin(0.05);
-		data->player.plane_y = old_plane_x * sin(0.05) + data->player.plane_y * cos(0.05);
-	}
+		rotate_left(data);
 	else if (keycode == 119)
-	{
-		data->player.pos_x += data->player.dir_x * data->player.move_speed;
-        data->player.pos_y += data->player.dir_y * data->player.move_speed;
-	}
+		fordward(data);
 	else if (keycode == 115)
-	{
-		data->player.pos_x -= data->player.dir_x * data->player.move_speed;
-        data->player.pos_y -= data->player.dir_y * data->player.move_speed;
-	}
+		move_back(data);
 	else if (keycode == 101)
-    {
-        perp_x = data->player.dir_y;
-    	perp_y = -data->player.dir_x;
-
-    	data->player.pos_x += perp_x * data->player.move_speed;
-    	data->player.pos_y += perp_y * data->player.move_speed;
-    }
-    else if (keycode == 113)
-    {
-        perp_x = -data->player.dir_y;
-    	perp_y = data->player.dir_x;
-
-    	data->player.pos_x += perp_x * data->player.move_speed;
-    	data->player.pos_y += perp_y * data->player.move_speed;
-    }
+		move_left(data);
+	else if (keycode == 113)
+		move_right(data);
 	raycasting(data, &data->player);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	return (0);
 }
+
+
 
 void raycasting(t_data *data, t_player *player)
 {
@@ -259,7 +334,14 @@ void raycasting(t_data *data, t_player *player)
 		if (draw_end >= data->height)
 			draw_end = data->height - 1;
 		//calcul coordonnees textures
-		tex_num = data->raycast.side;
+		if (data->raycast.side == 0 && ray_dir_x < 0)
+			tex_num = 0; // Mur vers l'est
+		else if (data->raycast.side == 0 && ray_dir_x >= 0)
+			tex_num = 1; // Mur vers l'ouest
+		else if (data->raycast.side == 1 && ray_dir_y < 0)
+			tex_num = 2; // Mur vers le nord
+		else
+			tex_num = 3; // Mur vers le sud
 		if (data->raycast.side == 0)
 			wall_x = player->pos_y + perp_wall_dist * ray_dir_y;
 		else
