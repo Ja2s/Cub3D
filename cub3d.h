@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:35:46 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/07/18 14:35:49 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:42:05 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ typedef struct s_raycast
 	double 			ray_dir_y;
 	int 			x;
 	int				y;
+	int				d;
 	int				tex_num;
 	int				tex_x;
+	int				tex_y;
 	int				draw_end;
 	int				line_height;
 	int				draw_start;

@@ -6,17 +6,16 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:18:24 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/07/18 14:54:50 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:28:30 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "cub3d.h"
 #include <stdio.h>
 
 #define M_PI 3.14159265358979323846
 
-int close_window(t_data *data)
+int	close_window(t_data *data)
 {
 	mlx_destroy_window(data->mlx, data->win);
 	mlx_destroy_image(data->mlx, data->img);
@@ -25,10 +24,12 @@ int close_window(t_data *data)
 	exit(0);
 }
 
-void map_init(t_data *data)
+void	map_init(t_data *data)
 {
+	int	i;
+
+	i = 0;
 	data->map = malloc(sizeof(char *) * 12);
-	int i = 0;
 	while (i < 11)
 	{
 		data->map[i] = malloc(sizeof(char) * 11);
@@ -48,22 +49,25 @@ void map_init(t_data *data)
 	data->map[11] = NULL;
 }
 
-
 void	load_textures(t_data *data, t_texture *texture, char *path)
 {
-	texture->img = mlx_xpm_file_to_image(data->mlx, path, &texture->width, &texture->height);
-	texture->addr = mlx_get_data_addr(texture->img, &texture->bits_per_pixel, &texture->line_length, &texture->endian);
+	texture->img = mlx_xpm_file_to_image(data->mlx, \
+	path, &texture->width, &texture->height);
+	texture->addr = mlx_get_data_addr(texture->img, \
+	&texture->bits_per_pixel, &texture->line_length, &texture->endian);
 }
 
-void data_init(t_data *data)
+void	data_init(t_data *data)
 {
 	data->width = 1200;
 	data->height = 800;
 	map_init(data);
 	data->mlx = mlx_init();
-	data->win = mlx_new_window(data->mlx, data->width, data->height, "Cub3D");
+	data->win = mlx_new_window(data->mlx, data->width, \
+	data->height, "Cub3D");
 	data->img = mlx_new_image(data->mlx, data->width, data->height);
-	data->addr = mlx_get_data_addr(data->img, &data->bits_per_pixel, &data->line_length, &data->endian);
+	data->addr = mlx_get_data_addr(data->img, \
+	&data->bits_per_pixel, &data->line_length, &data->endian);
 	data->floor_color = 0x8B4513;
 	data->sky_color = 0x323c43;
 	load_textures(data, &data->textures[0], "textures/text1.xpm");
@@ -72,7 +76,7 @@ void data_init(t_data *data)
 	load_textures(data, &data->textures[3], "textures/text2.xpm");
 }
 
-void player_init(t_player *player)
+void	player_init(t_player *player)
 {
 	player->pos_x = 5;
 	player->pos_y = 3;
@@ -83,7 +87,7 @@ void player_init(t_player *player)
 	player->move_speed = 0.1;
 }
 
-void my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
@@ -129,7 +133,7 @@ int	is_wall(t_data *data, double x, double y)
 	return (0);
 }
 
-void fordward(t_data *data)
+void	fordward(t_data *data)
 {
 	double new_pos_x;
 	double new_pos_y;
@@ -143,7 +147,7 @@ void fordward(t_data *data)
 	}
 }
 
-void move_back(t_data *data)
+void	move_back(t_data *data)
 {
 	double new_pos_x;
 	double new_pos_y;
@@ -157,7 +161,7 @@ void move_back(t_data *data)
 	}
 }
 
-void rotate_left(t_data *data)
+void	rotate_left(t_data *data)
 {
 	double old_dir_x;
 	double old_plane_x;
@@ -170,7 +174,7 @@ void rotate_left(t_data *data)
 	data->player.plane_y = old_plane_x * sin(0.05) + data->player.plane_y * cos(0.05);
 }
 
-void rotate_right(t_data *data)
+void	rotate_right(t_data *data)
 {
 	double old_dir_x;
 	double old_plane_x;
@@ -183,7 +187,7 @@ void rotate_right(t_data *data)
 	data->player.plane_y = old_plane_x * sin(-0.05) + data->player.plane_y * cos(-0.05);
 }
 
-void move_left(t_data *data)
+void	move_left(t_data *data)
 {
 	double perp_x;
 	double perp_y;
@@ -201,7 +205,7 @@ void move_left(t_data *data)
 	}
 }
 
-void move_right(t_data *data)
+void	move_right(t_data *data)
 {
 	double perp_x;
 	double perp_y;
@@ -219,7 +223,7 @@ void move_right(t_data *data)
 	}
 }
 
-int key_press(int keycode, t_data *data)
+int	key_press(int keycode, t_data *data)
 {
 	printf("keycode = %d\n", keycode);
 	if (keycode == 100)
@@ -333,48 +337,48 @@ void	wall_orientation(t_data *data)
 		data->rc.tex_num = 3; // Mur vers le sud
 }
 
-void	send_ray(t_data *data, t_player *player)
+void	wall_drawer(t_data *data, t_player *player)
 {
-	start_and_dir(data, player);
-	send_ray_helper(data, player);
-	hit_checker(data);
-	col_wall_sizer(data, player);
-	wall_orientation(data);
+	//calcul coordonnees textures
+	if (data->rc.side == 0)
+		data->rc.wall_x = player->pos_y + data->rc.perp_wall_dist * data->rc.ray_dir_y;
+	else
+		data->rc.wall_x = player->pos_x + data->rc.perp_wall_dist * data->rc.ray_dir_x;
+	data->rc.wall_x -= floor(data->rc.wall_x);
+	data->rc.tex_x = (int)(data->rc.wall_x * (double)(data->textures[data->rc.tex_num].width));
+	if (data->rc.side == 0 && data->rc.ray_dir_x > 0)
+		data->rc.tex_x = data->textures[data->rc.tex_num].width - data->rc.tex_x - 1;
+	if (data->rc.side == 1 && data->rc.ray_dir_y < 0)
+		data->rc.tex_x = data->textures[data->rc.tex_num].width - data->rc.tex_x - 1;
+	// Dessiner les pixels de la bande en utilisant une boucle while
+	data->rc.y = data->rc.draw_start;
+	while (data->rc.y < data->rc.draw_end)
+	{
+		data->rc.d = data->rc.y * 256 - data->height * 128 + data->rc.line_height * 128;
+		data->rc.tex_y = ((data->rc.d * data->textures[data->rc.tex_num].height) / data->rc.line_height) / 256;
+		data->rc.color = *(unsigned int*)(data->textures[data->rc.tex_num].addr + (data->rc.tex_y * data->textures[data->rc.tex_num].line_length + data->rc.tex_x * (data->textures[data->rc.tex_num].bits_per_pixel / 8)));
+		my_mlx_pixel_put(data, data->rc.x, data->rc.y, data->rc.color);
+		data->rc.y++;
+	}
 }
 
-void raycasting(t_data *data, t_player *player)
+void	raycasting(t_data *data, t_player *player)
 {
 	data->rc.x = 0;
 	draw_floor_and_sky(data);
 	while (data->rc.x < data->width)
 	{
-		send_ray(data, player);
-		//calcul coordonnees textures
-		if (data->rc.side == 0)
-			data->rc.wall_x = player->pos_y + data->rc.perp_wall_dist * data->rc.ray_dir_y;
-		else
-			data->rc.wall_x = player->pos_x + data->rc.perp_wall_dist * data->rc.ray_dir_x;
-		data->rc.wall_x -= floor(data->rc.wall_x);
-		data->rc.tex_x = (int)(data->rc.wall_x * (double)(data->textures[data->rc.tex_num].width));
-		if (data->rc.side == 0 && data->rc.ray_dir_x > 0)
-			data->rc.tex_x = data->textures[data->rc.tex_num].width - data->rc.tex_x - 1;
-		if (data->rc.side == 1 && data->rc.ray_dir_y < 0)
-			data->rc.tex_x = data->textures[data->rc.tex_num].width - data->rc.tex_x - 1;
-		// Dessiner les pixels de la bande en utilisant une boucle while
-		data->rc.y = data->rc.draw_start;
-		while (data->rc.y < data->rc.draw_end)
-		{
-			int d = data->rc.y * 256 - data->height * 128 + data->rc.line_height * 128;
-			int tex_y = ((d * data->textures[data->rc.tex_num].height) / data->rc.line_height) / 256;
-			data->rc.color = *(unsigned int*)(data->textures[data->rc.tex_num].addr + (tex_y * data->textures[data->rc.tex_num].line_length + data->rc.tex_x * (data->textures[data->rc.tex_num].bits_per_pixel / 8)));
-			my_mlx_pixel_put(data, data->rc.x, data->rc.y, data->rc.color);
-			data->rc.y++;
-		}
+		start_and_dir(data, player);
+		send_ray_helper(data, player);
+		hit_checker(data);
+		col_wall_sizer(data, player);
+		wall_orientation(data);
+		wall_drawer(data, player);
 		data->rc.x++;
 	}
 }
 
-int main(void)
+int	main(void)
 {
 	t_data	data;
 
