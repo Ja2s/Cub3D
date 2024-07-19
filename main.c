@@ -6,14 +6,57 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:18:24 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/07/18 16:28:30 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/07/19 20:09:26 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <stdio.h>
+#include <string.h>
 
 #define M_PI 3.14159265358979323846
+
+int	ft_strlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+void reverse_line(char *line)
+{
+    if (line == NULL)
+        return;
+
+    int len = ft_strlen(line);
+    int i = 0;
+    int j = len - 1;
+    char temp;
+
+    while (i < j)
+    {
+        temp = line[i];
+        line[i] = line[j];
+        line[j] = temp;
+        i++;
+        j--;
+    }
+}
+
+void reverse_map(char **map) 
+{
+	int i;
+
+	i = 1;
+    while (map[i]) 
+	{
+        reverse_line(map[i]);
+		i++;
+    }
+}
 
 int	close_window(t_data *data)
 {
@@ -24,29 +67,25 @@ int	close_window(t_data *data)
 	exit(0);
 }
 
-void	map_init(t_data *data)
+void map_init(t_data *data)
 {
-	int	i;
-
-	i = 0;
 	data->map = malloc(sizeof(char *) * 12);
-	while (i < 11)
-	{
-		data->map[i] = malloc(sizeof(char) * 11);
-		i++;
-	}
-	data->map[0] = "1111111111";
-	data->map[1] = "1010000001";
-	data->map[2] = "1010000001";
-	data->map[3] = "10100E0001";
-	data->map[4] = "1010000001";
-	data->map[5] = "1010000001";
-	data->map[6] = "1000111001";
-	data->map[7] = "1010100001";
-	data->map[8] = "1010111001";
-	data->map[9] = "1010001001";
-	data->map[10] = "1111111111";
-	data->map[11] = NULL;
+	if (!data->map)
+		return; // Ajoutez un gestionnaire d'erreurs approprié ici
+	data->map[0] = strdup("1111111111");
+	data->map[1] = strdup("1010000001");
+	data->map[2] = strdup("1010000001");
+	data->map[3] = strdup("10100E0001");
+	data->map[4] = strdup("1010000001");
+	data->map[5] = strdup("1010000001");
+	data->map[6] = strdup("1000111001");
+	data->map[7] = strdup("1010100001");
+	data->map[8] = strdup("1010111001");
+	data->map[9] = strdup("1010001001");
+	data->map[10] = strdup("1111111111");
+	data->map[11] = NULL; // Notez que la dernière ligne est NULL pour indiquer la fin du tableau de lignes
+
+	reverse_map(data->map);
 }
 
 void	load_textures(t_data *data, t_texture *texture, char *path)
@@ -70,10 +109,10 @@ void	data_init(t_data *data)
 	&data->bits_per_pixel, &data->line_length, &data->endian);
 	data->floor_color = 0x8B4513;
 	data->sky_color = 0x323c43;
-	load_textures(data, &data->textures[0], "textures/text1.xpm");
-	load_textures(data, &data->textures[1], "textures/text1.xpm");
-	load_textures(data, &data->textures[2], "textures/text2.xpm");
-	load_textures(data, &data->textures[3], "textures/text2.xpm");
+	load_textures(data, &data->textures[0], "textures/text2.xpm");
+	load_textures(data, &data->textures[1], "textures/text2.xpm");
+	load_textures(data, &data->textures[2], "textures/text1.xpm");
+	load_textures(data, &data->textures[3], "textures/text1.xpm");
 }
 
 void	player_init(t_player *player)
@@ -259,7 +298,7 @@ void	start_and_dir(t_data *data, t_player *player)
 
 void	send_ray_helper(t_data *data, t_player *player)
 {
-	// Calculer la distance entre le joueur et la premiere ligne vertical ou horizontal que le rayon vas toucher (side dist, cest pour calculer le bord de la map ou le bord de la case ou nous sommes?) 
+	// Calculer la distance entre le joueur et les bords de la case pour savoir quel mur le rayon va toucher
 	if (data->rc.ray_dir_x < 0)
 	{
 		data->rc.side_dist_x = (player->pos_x - data->rc.map_x) * data->rc.delta_dist_x;
@@ -328,13 +367,13 @@ void	col_wall_sizer(t_data *data, t_player *player)
 void	wall_orientation(t_data *data)
 {
 	if (data->rc.side == 0 && data->rc.ray_dir_x < 0)
-		data->rc.tex_num = 0; // Mur vers l'est
+		data->rc.tex_num = 2; // Mur vers l'est
 	else if (data->rc.side == 0 && data->rc.ray_dir_x >= 0)
-		data->rc.tex_num = 1; // Mur vers l'ouest
+		data->rc.tex_num = 3; // Mur vers l'ouest
 	else if (data->rc.side == 1 && data->rc.ray_dir_y < 0)
-		data->rc.tex_num = 2; // Mur vers le nord
+		data->rc.tex_num = 0; // Mur vers le nord
 	else
-		data->rc.tex_num = 3; // Mur vers le sud
+		data->rc.tex_num = 1; // Mur vers le sud
 }
 
 void	wall_drawer(t_data *data, t_player *player)
@@ -362,6 +401,65 @@ void	wall_drawer(t_data *data, t_player *player)
 	}
 }
 
+void mini_mapper(t_data *data)
+{
+    printf("ok\n");
+    int pos_x;
+    int pos_y;
+    int size_x;
+    int size_y;
+    int player_x;
+    int player_y;
+    int x = 0;
+    int y;
+    int i;
+    int j;
+
+    size_x = 10;  // Taille de la mini carte en cases
+    size_y = 11;  // Taille de la mini carte en cases
+    pos_x = data->width - (50);
+    pos_y = 50;
+
+    // Dessiner la mini carte
+    while (x < size_x)
+    {
+        y = 0;
+        while (y < size_y)
+        {   
+            i = 0;
+            while (i < 10)
+            {
+                j = 0;
+                while (j < 10)
+                {
+                    if (data->map[y][x] == '1')
+                        my_mlx_pixel_put(data, pos_x - (x * 10) + i, pos_y + (y * 10) + j, 0x2F2F2F);  // Mur en noir
+                    else
+                        my_mlx_pixel_put(data, pos_x - (x * 10) + i, pos_y + (y * 10) + j, 0x6C6E6B);  // Vide en blanc
+                    j++;
+                }
+                i++;
+            }
+            y++;
+        }
+        x++;
+    }
+    player_x = pos_x - data->player.pos_x * 10;
+    player_y = pos_y + data->player.pos_y * 10;
+    i = 0;
+    while (i <= 4)
+    {
+        j = 0;
+        while (j <= 4)
+        {
+            my_mlx_pixel_put(data, player_x + i + 10, player_y + j, 0xFF3060);  // Rouge pour le joueur
+            j++;
+        }
+        i++;
+    }
+}
+
+
 void	raycasting(t_data *data, t_player *player)
 {
 	data->rc.x = 0;
@@ -376,6 +474,7 @@ void	raycasting(t_data *data, t_player *player)
 		wall_drawer(data, player);
 		data->rc.x++;
 	}
+	mini_mapper(data);
 }
 
 int	main(void)
@@ -386,6 +485,7 @@ int	main(void)
 	data_init(&data);
 
 	raycasting(&data, &data.player);
+	// mini_mapper(&data);
 	mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
 
 	mlx_hook(data.win, 17, 0, close_window, &data);

@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:35:46 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/07/18 15:42:05 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:47:13 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,18 @@ typedef struct s_texture
 	int	 		line_length;
 	int	 		endian;
 }					t_texture;
+
+typedef struct s_minimap
+{
+	int			width;
+	int			height;
+	int			x;
+	int			y;
+	int			map_x;
+	int			map_y;
+	int			minimap_x;
+	int			minimap_y;
+}				t_minimap;
 
 typedef struct s_raycast
 {
@@ -81,6 +93,7 @@ typedef struct s_data
 	t_player		player;
 	t_raycast		rc;
 	t_texture		textures[4];
+	t_minimap		minimap;
 }					 t_data;
 
 	// map_x et map_y :
