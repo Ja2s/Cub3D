@@ -13,11 +13,12 @@ LIBFT = -Llibft -lft
 
 # Répertoires de sources
 SRC_DIR = src
+PARSE_DIR = src/parsing/
 GNL_DIR = gnl
 LIBFT_DIR = libft
 
 # Fichiers sources
-SRC = $(SRC_DIR)/main.c $(GNL_DIR)/get_next_line.c $(GNL_DIR)/get_next_line_utils.c
+SRC = $(SRC_DIR)/main.c $(GNL_DIR)/get_next_line.c $(GNL_DIR)/get_next_line_utils.c $(PARSE_DIR)get_color.c $(PARSE_DIR)get_texture.c $(PARSE_DIR)utils.c 
 
 # Fichiers objets
 OBJ = $(SRC:.c=.o)

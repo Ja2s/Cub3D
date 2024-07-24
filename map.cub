@@ -1,3 +1,10 @@
+NO	   ./textures/text3.xpm
+SO      ./textures/text3.xpm
+EA		./textures/text3.xpm
+WE      ./textures/text3.xpm
+F       100,100,80
+C       0,30,80
+
 1111111111
 1000000001
 1000000001

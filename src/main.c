@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:18:24 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/07/24 10:58:14 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/07/24 12:08:57 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,17 @@ void map_init(t_data *data)
 	reverse_map(data->map);
 }
 
-void	load_textures(t_data *data, t_texture *texture, char *path)
+void	load_textures(t_data *data, t_texture *texture)
 {
 	texture->img = mlx_xpm_file_to_image(data->mlx, \
-	path, &texture->width, &texture->height);
+	texture->path, &texture->width, &texture->height);
 	texture->addr = mlx_get_data_addr(texture->img, \
 	&texture->bits_per_pixel, &texture->line_length, &texture->endian);
+}
+
+unsigned int	color_converter(t_color color)
+{
+	return ((color.r << 16) | (color.g << 8) | color.b);
 }
 
 void	data_init(t_data *data)
@@ -96,12 +101,12 @@ void	data_init(t_data *data)
 	data->img = mlx_new_image(data->mlx, data->width, data->height);
 	data->addr = mlx_get_data_addr(data->img, \
 	&data->bits_per_pixel, &data->line_length, &data->endian);
-	data->floor_color = 0x8B4513;
-	data->sky_color = 0x323c43;
-	load_textures(data, &data->textures[0], "textures/text2.xpm");
-	load_textures(data, &data->textures[1], "textures/text2.xpm");
-	load_textures(data, &data->textures[2], "textures/text1.xpm");
-	load_textures(data, &data->textures[3], "textures/text1.xpm");
+	data->floor_color = color_converter(data->floor);
+	data->sky_color = color_converter(data->sky);
+	load_textures(data, &data->textures[0]);
+	load_textures(data, &data->textures[1]);
+	load_textures(data, &data->textures[2]);
+	load_textures(data, &data->textures[3]);
 }
 
 void	player_init(t_player *player)
@@ -466,292 +471,6 @@ void	raycasting(t_data *data, t_player *player)
 	mini_mapper(data);
 }
 
-//________________________________________PARSING_START_______________________________________________
-
-int	ft_strlen_cub(char *s, int choice)
-{
-	int	i;
-
-	i = 0;
-	if (choice == 0)
-		while (s[i])
-			i++;
-	else if (choice == 1)//jusqua un chiffre
-		while (s[i] && !(s[i] >= '0' && s[i] <= '9'))
-			i++;
-	else if (choice == 2)//jusqua \n
-		while (s[i] && s[i] != '\n')
-			i++;
-	return (i);
-}
-
-int	ft_check_arg(t_data *data, char *arg_map)
-{
-	int	len;
-
-	len = ft_strlen_cub(arg_map, 0);
-	if (len <= 4)
-		return (1);
-	if (arg_map[len - 4] != '.')
-		return (1);
-	if (arg_map[len - 3] != 'c')
-		return (1);
-	if (arg_map[len - 2] != 'u')
-		return (1);
-	if (arg_map[len - 1] != 'b')
-		return (1);
-	data->textures[0].path = NULL;
-	data->textures[1].path = NULL;
-	data->textures[2].path = NULL;
-	data->textures[3].path = NULL;
-	data->floor.check = false;
-	data->sky.check = false;
-	return (0);
-}
-
-char	*ft_strdup_cub(char *str, int choice)
-{
-	size_t	i;
-	size_t	len_src;
-	char	*tmp;
-
-	i = 0;
-	len_src = ft_strlen_cub(str, choice);
-	tmp = malloc((len_src + 1) * sizeof(char));
-	if (tmp == NULL)
-		return (tmp);
-	while (i < len_src)
-	{
-		tmp[i] = str[i];
-		i++;
-	}
-	tmp[i] = 0;
-	return (tmp);
-}
-
-void	ft_free_data(t_data data)
-{
-	free(data.textures[0].path);
-	free(data.textures[1].path);
-	free(data.textures[2].path);
-	free(data.textures[3].path);
-}
-
-int	ft_get_no(t_data *data, char *gnl)
-{
-	int	i;
-
-	i = 2;
-	if (gnl[0] == 'N' && gnl[1] == 'O' && (gnl[2] == ' ' || gnl[2] == '\t'))
-	{
-		while (gnl[i] && gnl[i] != '.')
-		{
-			if (gnl[i] != ' ' && gnl[i] != '\t')
-				return (printf("Error\nTexture NO invalid format"), -1);
-			i++;
-		}
-		if (data->textures[0].path)
-			return (printf("Error\nDoublon texture\n"), -2);
-		data->textures[0].path = ft_strdup_cub(gnl + i, 2);
-		if (!data->textures[0].path)
-			return (printf("Error\nMalloc failed\n"), -1);
-		data->nb_param = data->nb_param + 1;
-	}
-	return (0);
-}
-
-int	ft_get_so(t_data *data, char *gnl)
-{
-	int	i;
-
-	i = 2;
-	if (gnl[0] == 'S' && gnl[1] == 'O' && (gnl[2] == ' ' || gnl[2] == '\t'))
-	{
-		while (gnl[i] && gnl[i] != '.')
-		{
-			if (gnl[i] != ' ' && gnl[i] != '\t')
-				return (printf("Error\nTexture SO invalid format"), -1);
-			i++;
-		}
-		if (data->textures[1].path)
-			return (printf("Error\nDoublon texture\n"), -2);
-		data->textures[1].path = ft_strdup_cub(gnl + i, 2);
-		if (!data->textures[1].path)
-			return (printf("Error\nMalloc failed\n"), -1);
-		data->nb_param = data->nb_param + 1;
-	}
-	return (0);
-}
-
-int	ft_get_we(t_data *data, char *gnl)
-{
-	int	i;
-
-	i = 2;
-	if (gnl[0] == 'W' && gnl[1] == 'E' && (gnl[2] == ' ' || gnl[2] == '\t'))
-	{
-		while (gnl[i] && gnl[i] != '.')
-		{
-			if (gnl[i] != ' ' && gnl[i] != '\t')
-				return (printf("Error\nTexture WE invalid format"), -1);
-			i++;
-		}
-		if (data->textures[2].path)
-			return (printf("Error\nDoublon texture\n"), -2);
-		data->textures[2].path = ft_strdup_cub(gnl + i, 2);
-		if (!data->textures[2].path)
-			return (printf("Error\nMalloc failed\n"), -1);
-		data->nb_param = data->nb_param + 1;
-	}
-	return (0);
-}
-
-int	ft_get_ea(t_data *data, char *gnl)
-{
-	int	i;
-
-	i = 2;
-	if (gnl[0] == 'E' && gnl[1] == 'A' && (gnl[2] == ' ' || gnl[2] == '\t'))
-	{
-		while (gnl[i] && gnl[i] != '.')
-		{
-			if (gnl[i] != ' ' && gnl[i] != '\t')
-				return (printf("Error\nTexture EA invalid format"), -1);
-			i++;
-		}
-		if (data->textures[3].path)
-			return (printf("Error\nDoublon texture\n"), -2);
-		data->textures[3].path = ft_strdup_cub(gnl + i, 2);
-		if (!data->textures[3].path)
-			return (printf("Error\nMalloc failed\n"), -1);
-		data->nb_param = data->nb_param + 1;
-	}
-	return (0);
-}
-
-//return data->nb_param of texture or -1 for malloc error strdup or doublon
-int	ft_get_texture(t_data *data)
-{
-	char	*gnl;
-	int		tmp_count;
-
-	data->nb_param = 0;
-	gnl = get_next_line(data->fd);
-	while (gnl && data->nb_param < 6)
-	{
-		printf("%s", gnl);
-		tmp_count = data->nb_param;
-		if (ft_get_no(data, gnl) != 0 || ft_get_so(data, gnl) != 0 \
-		|| ft_get_we(data, gnl) != 0 || ft_get_ea(data, gnl) != 0 \
-		|| ft_get_color_f(data, gnl) == -1 || ft_get_color_c(data, gnl) == -1)
-			return (free(gnl), -1);
-		if (tmp_count == data->nb_param && gnl[0] != '\n')
-			return (printf("Error\nInvalid charatere in .cub\n"), free(gnl), -1);
-		free(gnl);
-		
-		gnl = get_next_line(data->fd);
-	}
-	return (free(gnl), data->nb_param);
-}
-
-int	ft_fill_color_c(t_data *data, char *gnl, int i)
-{
-	if (gnl[i] >= '0' && gnl[i] <= '9')
-		data->sky.r = ft_atoi(gnl + i);
-	else
-		return (printf("Error\nC iNvalid format\n"), -1);
-	while (gnl[i] >= '0' && gnl[i] <= '9')
-		i++;
-	if (gnl[i] != ',')
-		return (printf("Error\nC inValid format\n"), -1);
-	i++;
-	if (!(gnl[i] >= '0' && gnl[i] <= '9'))
-		return (printf("Error\nC invAlid format\n"), -1);
-	data->sky.g = ft_atoi(gnl + i);
-	while (gnl[i] >= '0' && gnl[i] <= '9')
-		i++;
-	if (gnl[i] != ',')
-		return (printf("Error\nC invaLid format\n"), -1);
-	i++;
-	if (!(gnl[i] >= '0' && gnl[i] <= '9'))
-		return (printf("Error\nC invaliD format\n"), -1);
-	data->sky.b = ft_atoi(gnl + i);
-	while (gnl[i] >= '0' && gnl[i] <= '9')
-		i++;
-	if (gnl[i] != '\n')
-		return (printf("Error\nC invalid FormaT\n"), -1);
-	return (0);
-}
-
-int	ft_fill_color_f(t_data *data, char *gnl, int i)
-{
-	if (gnl[i] >= '0' && gnl[i] <= '9')
-		data->floor.r = ft_atoi(gnl + i);
-	else
-		return (printf("Error\nF iNvalid format\n"), -1);
-	while (gnl[i] >= '0' && gnl[i] <= '9')
-		i++;
-	if (gnl[i] != ',')
-		return (printf("Error\nF inValid format\n"), -1);
-	i++;
-	if (!(gnl[i] >= '0' && gnl[i] <= '9'))
-		return (printf("Error\nF invAlid format\n"), -1);
-	data->floor.g = ft_atoi(gnl + i);
-	while (gnl[i] >= '0' && gnl[i] <= '9')
-		i++;
-	if (gnl[i] != ',')
-		return (printf("Error\nF invaLid format\n"), -1);
-	i++;
-	if (!(gnl[i] >= '0' && gnl[i] <= '9'))
-		return (printf("Error\nF invaliD format\n"), -1);
-	data->floor.b = ft_atoi(gnl + i);
-	while (gnl[i] >= '0' && gnl[i] <= '9')
-		i++;
-	if (gnl[i] != '\n')
-		return (printf("Error\nF invalid FormaT\n"), -1);
-	return (0);
-}
-
-//atoi(gnl + i) i etant au premier int
-int	ft_get_color_c(t_data *data, char *gnl)
-{
-	int	i;
-
-	i = 1;
-	if (gnl[0] == 'C' && gnl[1] == ' ')
-	{
-		if (data->sky.check)
-			return (printf("Error\ndouble C\n"), -1);
-		while (gnl[i] == ' ' || gnl[i] == '\t')
-			i++;
-		if (ft_fill_color_c(data, gnl, i) != 0)
-			return (-1);
-		data->nb_param = data->nb_param + 1;
-		data->sky.check = true;
-	}
-	return (0);
-}
-
-//atoi(gnl + i) i etant au premier int
-int	ft_get_color_f(t_data *data, char *gnl)
-{
-	int	i;
-
-	i = 1;
-	if (gnl[0] == 'F' && gnl[1] == ' ')
-	{
-		if (data->floor.check)
-			return (printf("Error\ndouble F\n"), -1);
-		while (gnl[i] == ' ' || gnl[i] == '\t')
-			i++;
-		if (ft_fill_color_f(data, gnl, i) != 0)
-			return (-1);
-		data->nb_param = data->nb_param + 1;
-		data->floor.check = true;
-	}
-	return (0);
-}
-
 int	ft_get_map(t_data *data)
 {
 	char	*gnl;
@@ -784,27 +503,65 @@ int	ft_parser(t_data *data, int ac, char **av)
 	return (0);
 }
 
-//________________________________________PARSING_END_______________________________________________
-
 int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	ft_parser(&data, argc, argv);
+	if (ft_parser(&data, argc, argv) == -1)
+		return (-1);
 	player_init(&data.player);
 	data_init(&data);
 
 	raycasting(&data, &data.player);
-	// mini_mapper(&data);
 	mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
 
 	mlx_hook(data.win, 17, 0, close_window, &data);
 	mlx_hook(data.win, 2, 1L<<0, key_press, &data);
 
 	mlx_loop(data.mlx);
+	ft_free_data(data);
 	return (0);
 }
 
-
-
 // gcc -Wall -Werror -Wextra main.c -L./minilibx-linux/ -lmlx_Linux -lX11 -lXext -lm -o cub3d
+/*
+void start_and_dir(t_data *data, t_player *player)
+
+    But : Déterminer la direction dans laquelle un rayon est lancé à partir de la position du joueur.
+    Ce qu'elle fait : Calcule où se trouve le joueur et dans quelle direction le rayon partira.
+
+void send_ray_helper(t_data *data, t_player *player)
+
+    But : Calculer la distance entre le joueur et le prochain mur.
+    Ce qu'elle fait : Détermine les distances aux bords de la case en fonction de la direction du rayon.
+
+void hit_checker(t_data *data)
+
+    But : Vérifier quand le rayon touche un mur.
+    Ce qu'elle fait : Avance pas à pas jusqu'à ce que le rayon rencontre un mur.
+
+void col_wall_sizer(t_data *data, t_player *player)
+
+    But : Calculer la taille du mur à dessiner.
+    Ce qu'elle fait : Calcule la hauteur du mur en fonction de la distance entre le joueur et le mur.
+
+void wall_orientation(t_data *data)
+
+    But : Déterminer quel côté du mur le rayon a touché.
+    Ce qu'elle fait : Identifie l'orientation du mur touché (nord, sud, est, ou ouest).
+
+void wall_drawer(t_data *data, t_player *player)
+
+    But : Dessiner le mur sur l'écran.
+    Ce qu'elle fait : Utilise la texture appropriée pour dessiner le mur, en fonction de l'endroit où il a été touché.
+
+void mini_mapper(t_data *data)
+
+    But : Dessiner une mini-carte de l'environnement.
+    Ce qu'elle fait : Affiche une petite carte avec la position des murs et du joueur.
+
+void raycasting(t_data *data, t_player *player)
+
+    But : Lancer des rayons pour dessiner la scène.
+    Ce qu'elle fait : Utilise toutes les fonctions précédentes pour lancer des rayons et dessiner les murs, puis affiche la mini-carte
+*/
