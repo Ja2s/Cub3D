@@ -6,25 +6,14 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:18:24 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/07/19 20:09:26 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/07/24 10:58:14 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#include <stdio.h>
 #include <string.h>
 
 #define M_PI 3.14159265358979323846
-
-int	ft_strlen(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
 
 void reverse_line(char *line)
 {
@@ -477,10 +466,331 @@ void	raycasting(t_data *data, t_player *player)
 	mini_mapper(data);
 }
 
-int	main(void)
+//________________________________________PARSING_START_______________________________________________
+
+int	ft_strlen_cub(char *s, int choice)
+{
+	int	i;
+
+	i = 0;
+	if (choice == 0)
+		while (s[i])
+			i++;
+	else if (choice == 1)//jusqua un chiffre
+		while (s[i] && !(s[i] >= '0' && s[i] <= '9'))
+			i++;
+	else if (choice == 2)//jusqua \n
+		while (s[i] && s[i] != '\n')
+			i++;
+	return (i);
+}
+
+int	ft_check_arg(t_data *data, char *arg_map)
+{
+	int	len;
+
+	len = ft_strlen_cub(arg_map, 0);
+	if (len <= 4)
+		return (1);
+	if (arg_map[len - 4] != '.')
+		return (1);
+	if (arg_map[len - 3] != 'c')
+		return (1);
+	if (arg_map[len - 2] != 'u')
+		return (1);
+	if (arg_map[len - 1] != 'b')
+		return (1);
+	data->textures[0].path = NULL;
+	data->textures[1].path = NULL;
+	data->textures[2].path = NULL;
+	data->textures[3].path = NULL;
+	data->floor.check = false;
+	data->sky.check = false;
+	return (0);
+}
+
+char	*ft_strdup_cub(char *str, int choice)
+{
+	size_t	i;
+	size_t	len_src;
+	char	*tmp;
+
+	i = 0;
+	len_src = ft_strlen_cub(str, choice);
+	tmp = malloc((len_src + 1) * sizeof(char));
+	if (tmp == NULL)
+		return (tmp);
+	while (i < len_src)
+	{
+		tmp[i] = str[i];
+		i++;
+	}
+	tmp[i] = 0;
+	return (tmp);
+}
+
+void	ft_free_data(t_data data)
+{
+	free(data.textures[0].path);
+	free(data.textures[1].path);
+	free(data.textures[2].path);
+	free(data.textures[3].path);
+}
+
+int	ft_get_no(t_data *data, char *gnl)
+{
+	int	i;
+
+	i = 2;
+	if (gnl[0] == 'N' && gnl[1] == 'O' && (gnl[2] == ' ' || gnl[2] == '\t'))
+	{
+		while (gnl[i] && gnl[i] != '.')
+		{
+			if (gnl[i] != ' ' && gnl[i] != '\t')
+				return (printf("Error\nTexture NO invalid format"), -1);
+			i++;
+		}
+		if (data->textures[0].path)
+			return (printf("Error\nDoublon texture\n"), -2);
+		data->textures[0].path = ft_strdup_cub(gnl + i, 2);
+		if (!data->textures[0].path)
+			return (printf("Error\nMalloc failed\n"), -1);
+		data->nb_param = data->nb_param + 1;
+	}
+	return (0);
+}
+
+int	ft_get_so(t_data *data, char *gnl)
+{
+	int	i;
+
+	i = 2;
+	if (gnl[0] == 'S' && gnl[1] == 'O' && (gnl[2] == ' ' || gnl[2] == '\t'))
+	{
+		while (gnl[i] && gnl[i] != '.')
+		{
+			if (gnl[i] != ' ' && gnl[i] != '\t')
+				return (printf("Error\nTexture SO invalid format"), -1);
+			i++;
+		}
+		if (data->textures[1].path)
+			return (printf("Error\nDoublon texture\n"), -2);
+		data->textures[1].path = ft_strdup_cub(gnl + i, 2);
+		if (!data->textures[1].path)
+			return (printf("Error\nMalloc failed\n"), -1);
+		data->nb_param = data->nb_param + 1;
+	}
+	return (0);
+}
+
+int	ft_get_we(t_data *data, char *gnl)
+{
+	int	i;
+
+	i = 2;
+	if (gnl[0] == 'W' && gnl[1] == 'E' && (gnl[2] == ' ' || gnl[2] == '\t'))
+	{
+		while (gnl[i] && gnl[i] != '.')
+		{
+			if (gnl[i] != ' ' && gnl[i] != '\t')
+				return (printf("Error\nTexture WE invalid format"), -1);
+			i++;
+		}
+		if (data->textures[2].path)
+			return (printf("Error\nDoublon texture\n"), -2);
+		data->textures[2].path = ft_strdup_cub(gnl + i, 2);
+		if (!data->textures[2].path)
+			return (printf("Error\nMalloc failed\n"), -1);
+		data->nb_param = data->nb_param + 1;
+	}
+	return (0);
+}
+
+int	ft_get_ea(t_data *data, char *gnl)
+{
+	int	i;
+
+	i = 2;
+	if (gnl[0] == 'E' && gnl[1] == 'A' && (gnl[2] == ' ' || gnl[2] == '\t'))
+	{
+		while (gnl[i] && gnl[i] != '.')
+		{
+			if (gnl[i] != ' ' && gnl[i] != '\t')
+				return (printf("Error\nTexture EA invalid format"), -1);
+			i++;
+		}
+		if (data->textures[3].path)
+			return (printf("Error\nDoublon texture\n"), -2);
+		data->textures[3].path = ft_strdup_cub(gnl + i, 2);
+		if (!data->textures[3].path)
+			return (printf("Error\nMalloc failed\n"), -1);
+		data->nb_param = data->nb_param + 1;
+	}
+	return (0);
+}
+
+//return data->nb_param of texture or -1 for malloc error strdup or doublon
+int	ft_get_texture(t_data *data)
+{
+	char	*gnl;
+	int		tmp_count;
+
+	data->nb_param = 0;
+	gnl = get_next_line(data->fd);
+	while (gnl && data->nb_param < 6)
+	{
+		printf("%s", gnl);
+		tmp_count = data->nb_param;
+		if (ft_get_no(data, gnl) != 0 || ft_get_so(data, gnl) != 0 \
+		|| ft_get_we(data, gnl) != 0 || ft_get_ea(data, gnl) != 0 \
+		|| ft_get_color_f(data, gnl) == -1 || ft_get_color_c(data, gnl) == -1)
+			return (free(gnl), -1);
+		if (tmp_count == data->nb_param && gnl[0] != '\n')
+			return (printf("Error\nInvalid charatere in .cub\n"), free(gnl), -1);
+		free(gnl);
+		
+		gnl = get_next_line(data->fd);
+	}
+	return (free(gnl), data->nb_param);
+}
+
+int	ft_fill_color_c(t_data *data, char *gnl, int i)
+{
+	if (gnl[i] >= '0' && gnl[i] <= '9')
+		data->sky.r = ft_atoi(gnl + i);
+	else
+		return (printf("Error\nC iNvalid format\n"), -1);
+	while (gnl[i] >= '0' && gnl[i] <= '9')
+		i++;
+	if (gnl[i] != ',')
+		return (printf("Error\nC inValid format\n"), -1);
+	i++;
+	if (!(gnl[i] >= '0' && gnl[i] <= '9'))
+		return (printf("Error\nC invAlid format\n"), -1);
+	data->sky.g = ft_atoi(gnl + i);
+	while (gnl[i] >= '0' && gnl[i] <= '9')
+		i++;
+	if (gnl[i] != ',')
+		return (printf("Error\nC invaLid format\n"), -1);
+	i++;
+	if (!(gnl[i] >= '0' && gnl[i] <= '9'))
+		return (printf("Error\nC invaliD format\n"), -1);
+	data->sky.b = ft_atoi(gnl + i);
+	while (gnl[i] >= '0' && gnl[i] <= '9')
+		i++;
+	if (gnl[i] != '\n')
+		return (printf("Error\nC invalid FormaT\n"), -1);
+	return (0);
+}
+
+int	ft_fill_color_f(t_data *data, char *gnl, int i)
+{
+	if (gnl[i] >= '0' && gnl[i] <= '9')
+		data->floor.r = ft_atoi(gnl + i);
+	else
+		return (printf("Error\nF iNvalid format\n"), -1);
+	while (gnl[i] >= '0' && gnl[i] <= '9')
+		i++;
+	if (gnl[i] != ',')
+		return (printf("Error\nF inValid format\n"), -1);
+	i++;
+	if (!(gnl[i] >= '0' && gnl[i] <= '9'))
+		return (printf("Error\nF invAlid format\n"), -1);
+	data->floor.g = ft_atoi(gnl + i);
+	while (gnl[i] >= '0' && gnl[i] <= '9')
+		i++;
+	if (gnl[i] != ',')
+		return (printf("Error\nF invaLid format\n"), -1);
+	i++;
+	if (!(gnl[i] >= '0' && gnl[i] <= '9'))
+		return (printf("Error\nF invaliD format\n"), -1);
+	data->floor.b = ft_atoi(gnl + i);
+	while (gnl[i] >= '0' && gnl[i] <= '9')
+		i++;
+	if (gnl[i] != '\n')
+		return (printf("Error\nF invalid FormaT\n"), -1);
+	return (0);
+}
+
+//atoi(gnl + i) i etant au premier int
+int	ft_get_color_c(t_data *data, char *gnl)
+{
+	int	i;
+
+	i = 1;
+	if (gnl[0] == 'C' && gnl[1] == ' ')
+	{
+		if (data->sky.check)
+			return (printf("Error\ndouble C\n"), -1);
+		while (gnl[i] == ' ' || gnl[i] == '\t')
+			i++;
+		if (ft_fill_color_c(data, gnl, i) != 0)
+			return (-1);
+		data->nb_param = data->nb_param + 1;
+		data->sky.check = true;
+	}
+	return (0);
+}
+
+//atoi(gnl + i) i etant au premier int
+int	ft_get_color_f(t_data *data, char *gnl)
+{
+	int	i;
+
+	i = 1;
+	if (gnl[0] == 'F' && gnl[1] == ' ')
+	{
+		if (data->floor.check)
+			return (printf("Error\ndouble F\n"), -1);
+		while (gnl[i] == ' ' || gnl[i] == '\t')
+			i++;
+		if (ft_fill_color_f(data, gnl, i) != 0)
+			return (-1);
+		data->nb_param = data->nb_param + 1;
+		data->floor.check = true;
+	}
+	return (0);
+}
+
+int	ft_get_map(t_data *data)
+{
+	char	*gnl;
+
+	printf("map : \n");
+	gnl = get_next_line(data->fd);
+	while (gnl)
+	{
+		printf("%s", gnl);
+		free(gnl);
+		gnl = get_next_line(data->fd);
+	}
+	free(gnl); // Libérer la mémoire allouée par la dernière appel à get_next_line
+	return (0);
+}
+
+int	ft_parser(t_data *data, int ac, char **av)
+{
+	if (ac != 2)
+		return (printf("Error\nNombre d'arguments incorrect\n"), -1);
+	if (ft_check_arg(data, av[1]) == 1)
+		return (printf("Error\nLe fichier de description de scène doit avoir pour extension .cub\n"), -1);
+	data->fd = open(av[1], O_RDONLY);
+	if (data->fd == -1)
+		return (printf("Error\nOpen failed\n"), -1);
+	if (ft_get_texture(data) < 6)
+		return (-1);
+	if (ft_get_map(data) != 0)
+		return (-1);
+	return (0);
+}
+
+//________________________________________PARSING_END_______________________________________________
+
+int	main(int argc, char **argv)
 {
 	t_data	data;
 
+	ft_parser(&data, argc, argv);
 	player_init(&data.player);
 	data_init(&data);
 
