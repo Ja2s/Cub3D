@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:18:24 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/07/24 12:08:57 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:27:41 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,18 @@ void map_init(t_data *data)
 	data->map = malloc(sizeof(char *) * 12);
 	if (!data->map)
 		return; // Ajoutez un gestionnaire d'erreurs approprié ici
-	data->map[0] = strdup("1111111111");
-	data->map[1] = strdup("1010000001");
-	data->map[2] = strdup("1010000001");
-	data->map[3] = strdup("10100E0001");
-	data->map[4] = strdup("1010000001");
-	data->map[5] = strdup("1010000001");
-	data->map[6] = strdup("1000111001");
-	data->map[7] = strdup("1010100001");
-	data->map[8] = strdup("1010111001");
-	data->map[9] = strdup("1010001001");
-	data->map[10] = strdup("1111111111");
+	data->map[0] = strdup("11111111111111111111111");
+	data->map[1] = strdup("10100000000000000000001");
+	data->map[2] = strdup("10100000000000000000001");
+	data->map[3] = strdup("10100E00000000111111111");
+	data->map[4] = strdup("101000000000001        ");
+	data->map[5] = strdup("101000000000001        ");
+	data->map[6] = strdup("100011100000001        ");
+	data->map[7] = strdup("101010000000001        ");
+	data->map[8] = strdup("101011100000001        ");
+	data->map[9] = strdup("101000100000001        ");
+	data->map[10] = strdup("111111111111111        ");
 	data->map[11] = NULL; // Notez que la dernière ligne est NULL pour indiquer la fin du tableau de lignes
-
 	reverse_map(data->map);
 }
 
@@ -92,8 +91,8 @@ unsigned int	color_converter(t_color color)
 
 void	data_init(t_data *data)
 {
-	data->width = 1200;
-	data->height = 800;
+	data->width = 1600;
+	data->height = 1000;
 	map_init(data);
 	data->mlx = mlx_init();
 	data->win = mlx_new_window(data->mlx, data->width, \
@@ -111,10 +110,16 @@ void	data_init(t_data *data)
 
 void	player_init(t_player *player)
 {
-	player->pos_x = 5;
+	player->pos_x = 13;
 	player->pos_y = 3;
-	player->dir_x = -1;
-	player->dir_y = 0;
+	player->dir = 'E';
+	if (player->dir == 'E')
+	{
+		player->dir_x = -1;
+		player->dir_y = 0;
+		player->plane_x = 0;
+		player->plane_y = 0.66; // Ajustement du FOV
+	}
 	player->plane_x = 0;
 	player->plane_y = 0.66; // Ajustement du FOV
 	player->move_speed = 0.1;
@@ -128,25 +133,19 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-void	draw_floor_and_sky(t_data *data)
+void draw_floor_and_sky(t_data *data, int x, int draw_start, int draw_end)
 {
-	int x;
-	int	y;
+    int y;
 
-	y = 0;
-	while (y < data->height)
-	{
-		x = 0;
-		while (x < data->width)
-		{
-			if (y < data->height / 2)
-				my_mlx_pixel_put(data, x, y, data->sky_color);
-			else
-				my_mlx_pixel_put(data, x, y, data->floor_color);
-			x++;
-		}
-		y++;
-	}
+    y = 0;
+    while (y < data->height)
+    {
+        if (y < draw_start)
+            my_mlx_pixel_put(data, x, y, data->sky_color);
+        else if (y > draw_end)
+            my_mlx_pixel_put(data, x, y, data->floor_color);
+        y++;
+    }
 }
 
 //permet de checker la case ou nous allons aller pour le prochain deplacement voir si cest un mur
@@ -156,8 +155,8 @@ int	is_wall(t_data *data, double x, double y)
 	int map_y;
 	
 	//permet de check un poil plus loin que le player, ce qui permet en quelaque sorte de si;uler une hitbox
-	x += data->player.dir_x * 0.07;
-	y += data->player.dir_y * 0.07;
+	x += data->player.dir_x * 0.25;
+	y += data->player.dir_y * 0.25;
 
 	map_x = (int)x;
 	map_y = (int)y;
@@ -176,7 +175,7 @@ void	fordward(t_data *data)
 	if (is_wall(data, new_pos_x, new_pos_y) == 0)
 	{
 		data->player.pos_x = new_pos_x;
-		data->player.pos_y = new_pos_y;		
+		data->player.pos_y = new_pos_y;
 	}
 }
 
@@ -258,7 +257,7 @@ void	move_right(t_data *data)
 
 int	key_press(int keycode, t_data *data)
 {
-	printf("keycode = %d\n", keycode);
+	//printf("keycode = %d\n", keycode);
 	if (keycode == 100)
 		rotate_right(data);
 	else if (keycode == 97)
@@ -409,7 +408,7 @@ void mini_mapper(t_data *data)
     int i;
     int j;
 
-    size_x = 10;  // Taille de la mini carte en cases
+    size_x = 24;  // Taille de la mini carte en cases
     size_y = 11;  // Taille de la mini carte en cases
     pos_x = data->width - (50);
     pos_y = 50;
@@ -428,8 +427,8 @@ void mini_mapper(t_data *data)
                 {
                     if (data->map[y][x] == '1')
                         my_mlx_pixel_put(data, pos_x - (x * 10) + i, pos_y + (y * 10) + j, 0x2F2F2F);  // Mur en noir
-                    else
-                        my_mlx_pixel_put(data, pos_x - (x * 10) + i, pos_y + (y * 10) + j, 0x6C6E6B);  // Vide en blanc
+                    // else if (data->map[y][x] == '0') 
+                    //     my_mlx_pixel_put(data, pos_x - (x * 10) + i, pos_y + (y * 10) + j, 0x6C6E6B);  // Vide en blanc
                     j++;
                 }
                 i++;
@@ -441,12 +440,12 @@ void mini_mapper(t_data *data)
     player_x = pos_x - data->player.pos_x * 10;
     player_y = pos_y + data->player.pos_y * 10;
     i = 0;
-    while (i <= 4)
+    while (i <= 6)
     {
         j = 0;
-        while (j <= 4)
+        while (j <= 6)
         {
-            my_mlx_pixel_put(data, player_x + i + 10, player_y + j, 0xFF3060);  // Rouge pour le joueur
+            my_mlx_pixel_put(data, player_x + i + 10, player_y + j, 0xFFFFFF);  // Rouge pour le joueur
             j++;
         }
         i++;
@@ -457,7 +456,7 @@ void mini_mapper(t_data *data)
 void	raycasting(t_data *data, t_player *player)
 {
 	data->rc.x = 0;
-	draw_floor_and_sky(data);
+
 	while (data->rc.x < data->width)
 	{
 		start_and_dir(data, player);
@@ -466,7 +465,9 @@ void	raycasting(t_data *data, t_player *player)
 		col_wall_sizer(data, player);
 		wall_orientation(data);
 		wall_drawer(data, player);
+		draw_floor_and_sky(data, data->rc.x, data->rc.draw_start, data->rc.draw_end);
 		data->rc.x++;
+		// printf("dir_x : %f\ndir_y : %f\nplane_x : %f\nplane_y : %f\n", player->dir_x, player->dir_y, player->plane_x, player->plane_y);
 	}
 	mini_mapper(data);
 }

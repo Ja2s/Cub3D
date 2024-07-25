@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:35:46 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/07/24 11:22:19 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:35:35 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ typedef struct s_player
 
 typedef struct s_data
 {
+
+	
 	void			*mlx;
 	void			*win;
 	void			*img;
@@ -189,6 +191,7 @@ int		ft_get_no(t_data *data, char *gnl);
 int		ft_get_so(t_data *data, char *gnl);
 int		ft_get_we(t_data *data, char *gnl);
 int		ft_get_ea(t_data *data, char *gnl);
+int	is_wall(t_data *data, double x, double y);
 void	ft_free_data(t_data data);
 
 #endif

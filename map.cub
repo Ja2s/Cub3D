@@ -1,9 +1,9 @@
-NO	   ./textures/text3.xpm
-SO      ./textures/text3.xpm
-EA		./textures/text3.xpm
-WE      ./textures/text3.xpm
-F       100,100,80
-C       0,30,80
+NO	   ./textures/text1.xpm
+SO      ./textures/text1.xpm
+EA		./textures/text2.xpm
+WE      ./textures/text2.xpm
+F       139,69,19
+C       64,64,64
 
 1111111111
 1000000001
