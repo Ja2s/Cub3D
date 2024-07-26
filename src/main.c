@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 11:18:24 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/07/25 17:27:41 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/07/26 12:16:00 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,18 +112,38 @@ void	player_init(t_player *player)
 {
 	player->pos_x = 13;
 	player->pos_y = 3;
-	player->dir = 'E';
+	player->dir = 'S'; // a supprimmer une fois recup dans le parsing
 	if (player->dir == 'E')
 	{
 		player->dir_x = -1;
 		player->dir_y = 0;
 		player->plane_x = 0;
-		player->plane_y = 0.66; // Ajustement du FOV
+		player->plane_y = 0.66;
 	}
-	player->plane_x = 0;
-	player->plane_y = 0.66; // Ajustement du FOV
+	else if (player->dir == 'W')
+	{
+		player->dir_x = 1;
+		player->dir_y = 0;
+		player->plane_x = 0;
+		player->plane_y = -0.66;
+	}
+	else if (player->dir == 'N')
+	{
+		player->dir_x = 0;
+		player->dir_y = -1;
+		player->plane_x = 0.66;
+		player->plane_y = 0;
+	}
+	else if (player->dir == 'S')
+	{
+		player->dir_x = 0;
+		player->dir_y = 1;
+		player->plane_x = -0.66;
+		player->plane_y = 0;
+	}
 	player->move_speed = 0.1;
 }
+
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
