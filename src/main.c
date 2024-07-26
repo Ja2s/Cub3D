@@ -5,46 +5,47 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/18 11:18:24 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/07/26 12:16:00 by jgavairo         ###   ########.fr       */
+/*   Created: 2024/07/26 17:13:11 by jgavairo          #+#    #+#             */
+/*   Updated: 2024/07/26 17:21:15 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <string.h>
-
 #define M_PI 3.14159265358979323846
 
-void reverse_line(char *line)
+void	reverse_line(char *line)
 {
-    if (line == NULL)
-        return;
+	int		len;
+	int		i;
+	int		j;
+	char	temp;
 
-    int len = ft_strlen(line);
-    int i = 0;
-    int j = len - 1;
-    char temp;
-
-    while (i < j)
-    {
-        temp = line[i];
-        line[i] = line[j];
-        line[j] = temp;
-        i++;
-        j--;
-    }
+	if (line == NULL)
+		return ;
+	len = ft_strlen(line);
+	i = 0;
+	j = len - 1;
+	while (i < j)
+	{
+		temp = line[i];
+		line[i] = line[j];
+		line[j] = temp;
+		i++;
+		j--;
+	}
 }
 
-void reverse_map(char **map) 
+void	reverse_map(char **map)
 {
-	int i;
+	int	i;
 
 	i = 1;
-    while (map[i]) 
+	while (map[i])
 	{
-        reverse_line(map[i]);
+		reverse_line(map[i]);
 		i++;
-    }
+	}
 }
 
 int	close_window(t_data *data)
@@ -56,23 +57,23 @@ int	close_window(t_data *data)
 	exit(0);
 }
 
-void map_init(t_data *data)
+void	map_init(t_data *data)
 {
 	data->map = malloc(sizeof(char *) * 12);
 	if (!data->map)
-		return; // Ajoutez un gestionnaire d'erreurs approprié ici
+		return ;
 	data->map[0] = strdup("11111111111111111111111");
 	data->map[1] = strdup("10100000000000000000001");
 	data->map[2] = strdup("10100000000000000000001");
 	data->map[3] = strdup("10100E00000000111111111");
-	data->map[4] = strdup("101000000000001        ");
-	data->map[5] = strdup("101000000000001        ");
-	data->map[6] = strdup("100011100000001        ");
-	data->map[7] = strdup("101010000000001        ");
-	data->map[8] = strdup("101011100000001        ");
-	data->map[9] = strdup("101000100000001        ");
-	data->map[10] = strdup("111111111111111        ");
-	data->map[11] = NULL; // Notez que la dernière ligne est NULL pour indiquer la fin du tableau de lignes
+	data->map[4] = strdup("101000000000001		");
+	data->map[5] = strdup("101000000000001		");
+	data->map[6] = strdup("100011100000001		");
+	data->map[7] = strdup("101010000000001		");
+	data->map[8] = strdup("101011100000001		");
+	data->map[9] = strdup("101000100000001		");
+	data->map[10] = strdup("111111111111111		");
+	data->map[11] = NULL;
 	reverse_map(data->map);
 }
 
@@ -108,11 +109,26 @@ void	data_init(t_data *data)
 	load_textures(data, &data->textures[3]);
 }
 
-void	player_init(t_player *player)
+void	choose_ns(t_player *player)
 {
-	player->pos_x = 13;
-	player->pos_y = 3;
-	player->dir = 'S'; // a supprimmer une fois recup dans le parsing
+	if (player->dir == 'N')
+	{
+		player->dir_x = 0;
+		player->dir_y = -1;
+		player->plane_x = -0.66;
+		player->plane_y = 0;
+	}
+	else if (player->dir == 'S')
+	{
+		player->dir_x = 0;
+		player->dir_y = 1;
+		player->plane_x = 0.66;
+		player->plane_y = 0;
+	}
+}
+
+void	choose_ew(t_player *player)
+{
 	if (player->dir == 'E')
 	{
 		player->dir_x = -1;
@@ -127,96 +143,112 @@ void	player_init(t_player *player)
 		player->plane_x = 0;
 		player->plane_y = -0.66;
 	}
-	else if (player->dir == 'N')
-	{
-		player->dir_x = 0;
-		player->dir_y = -1;
-		player->plane_x = 0.66;
-		player->plane_y = 0;
-	}
-	else if (player->dir == 'S')
-	{
-		player->dir_x = 0;
-		player->dir_y = 1;
-		player->plane_x = -0.66;
-		player->plane_y = 0;
-	}
-	player->move_speed = 0.1;
 }
 
+void	player_init(t_player *player)
+{
+	player->pos_x = 13;
+	player->pos_y = 3;
+	player->dir = 'W';
+	if (player->dir == 'E' || player->dir == 'W')
+		choose_ew(player);
+	if (player->dir == 'N' || player->dir == 'S')
+		choose_ns(player);
+	player->move_speed = 0.1;
+}
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	*(unsigned int *)dst = color;
 }
 
-void draw_floor_and_sky(t_data *data, int x, int draw_start, int draw_end)
+void	draw_floor_and_sky(t_data *data, int x, int draw_start, int draw_end)
 {
-    int y;
+	int	y;
 
-    y = 0;
-    while (y < data->height)
-    {
-        if (y < draw_start)
-            my_mlx_pixel_put(data, x, y, data->sky_color);
-        else if (y > draw_end)
-            my_mlx_pixel_put(data, x, y, data->floor_color);
-        y++;
-    }
+	y = 0;
+	while (y < data->height)
+	{
+		if (y < draw_start)
+			my_mlx_pixel_put(data, x, y, data->sky_color);
+		else if (y > draw_end)
+			my_mlx_pixel_put(data, x, y, data->floor_color);
+		y++;
+	}
 }
 
 //permet de checker la case ou nous allons aller pour le prochain deplacement voir si cest un mur
-int	is_wall(t_data *data, double x, double y)
+#define HITBOX_SIZE 0.1
+#define OFFSET_COUNT 4
+
+int	check_wall(t_data *data, double x, double y)
 {
-	int map_x;
-	int map_y;
-	
-	//permet de check un poil plus loin que le player, ce qui permet en quelaque sorte de si;uler une hitbox
-	x += data->player.dir_x * 0.25;
-	y += data->player.dir_y * 0.25;
+	int	map_x;
+	int	map_y;
 
 	map_x = (int)x;
 	map_y = (int)y;
 	if (data->map[map_y][map_x] == '1')
-		return (-1);
+		return (1);
+	return (0);
+}
+
+int	is_wall(t_data *data, double x, double y)
+{
+	double	offsets[4][2];
+	int		i;
+
+	offsets[0][0] = 0.1;
+	offsets[0][1] = 0.1;
+	offsets[1][0] = -0.1;
+	offsets[1][1] = 0.1;
+	offsets[2][0] = 0.1;
+	offsets[2][1] = -0.1;
+	offsets[3][0] = -0.1;
+	offsets[3][1] = -0.1;
+	i = 0;
+	while (i < OFFSET_COUNT)
+	{
+		if (check_wall(data, x + offsets[i][0], y + offsets[i][1]))
+			return (1);
+		i++;
+	}
 	return (0);
 }
 
 void	fordward(t_data *data)
 {
-	double new_pos_x;
-	double new_pos_y;
+	double	new_pos_x;
+	double	new_pos_y;
 
 	new_pos_x = data->player.pos_x + data->player.dir_x * data->player.move_speed;
 	new_pos_y = data->player.pos_y + data->player.dir_y * data->player.move_speed;
-	if (is_wall(data, new_pos_x, new_pos_y) == 0)
-	{
+	if (is_wall(data, new_pos_x, data->player.pos_y) == 0)
 		data->player.pos_x = new_pos_x;
+	if (is_wall(data, data->player.pos_x, new_pos_y) == 0)
 		data->player.pos_y = new_pos_y;
-	}
 }
 
 void	move_back(t_data *data)
 {
-	double new_pos_x;
-	double new_pos_y;
-	
+	double	new_pos_x;
+	double	new_pos_y;
+
 	new_pos_x = data->player.pos_x - data->player.dir_x * data->player.move_speed;
 	new_pos_y = data->player.pos_y - data->player.dir_y * data->player.move_speed;
-	if (is_wall(data, new_pos_x, new_pos_y) == 0)
-	{
+	if (is_wall(data, new_pos_x, data->player.pos_y) == 0)
 		data->player.pos_x = new_pos_x;
-		data->player.pos_y = new_pos_y;		
-	}
+	if (is_wall(data, data->player.pos_x, new_pos_y) == 0)
+		data->player.pos_y = new_pos_y;
 }
 
 void	rotate_left(t_data *data)
 {
-	double old_dir_x;
-	double old_plane_x;
+	double	old_dir_x;
+	double	old_plane_x;
 
 	old_dir_x = data->player.dir_x;
 	data->player.dir_x = data->player.dir_x * cos(0.05) - data->player.dir_y * sin(0.05);
@@ -228,8 +260,8 @@ void	rotate_left(t_data *data)
 
 void	rotate_right(t_data *data)
 {
-	double old_dir_x;
-	double old_plane_x;
+	double	old_dir_x;
+	double	old_plane_x;
 
 	old_dir_x = data->player.dir_x;
 	data->player.dir_x = data->player.dir_x * cos(-0.05) - data->player.dir_y * sin(-0.05);
@@ -241,38 +273,36 @@ void	rotate_right(t_data *data)
 
 void	move_left(t_data *data)
 {
-	double perp_x;
-	double perp_y;
-	double new_pos_x;
-	double new_pos_y;
+	double	perp_x;
+	double	perp_y;
+	double	new_pos_x;
+	double	new_pos_y;
 
 	perp_x = data->player.dir_y;
 	perp_y = -data->player.dir_x;
 	new_pos_x = data->player.pos_x + perp_x * (data->player.move_speed / 2);
 	new_pos_y = data->player.pos_y + perp_y * (data->player.move_speed / 2);
-	if (is_wall(data, new_pos_x, new_pos_y) == 0)
-	{
+	if (is_wall(data, new_pos_x, data->player.pos_y) == 0)
 		data->player.pos_x = new_pos_x;
-		data->player.pos_y = new_pos_y;		
-	}
+	if (is_wall(data, data->player.pos_x, new_pos_y) == 0)
+		data->player.pos_y = new_pos_y;
 }
 
 void	move_right(t_data *data)
 {
-	double perp_x;
-	double perp_y;
-	double new_pos_x;
-	double new_pos_y;
+	double	perp_x;
+	double	perp_y;
+	double	new_pos_x;
+	double	new_pos_y;
 
 	perp_x = -data->player.dir_y;
 	perp_y = data->player.dir_x;
 	new_pos_x = data->player.pos_x + perp_x * (data->player.move_speed / 2);
 	new_pos_y = data->player.pos_y + perp_y * (data->player.move_speed / 2);
-	if (is_wall(data, new_pos_x, new_pos_y) == 0)
-	{
+	if (is_wall(data, new_pos_x, data->player.pos_y) == 0)
 		data->player.pos_x = new_pos_x;
-		data->player.pos_y = new_pos_y;		
-	}
+	if (is_wall(data, data->player.pos_x, new_pos_y) == 0)
+		data->player.pos_y = new_pos_y;
 }
 
 int	key_press(int keycode, t_data *data)
@@ -408,68 +438,67 @@ void	wall_drawer(t_data *data, t_player *player)
 	{
 		data->rc.d = data->rc.y * 256 - data->height * 128 + data->rc.line_height * 128;
 		data->rc.tex_y = ((data->rc.d * data->textures[data->rc.tex_num].height) / data->rc.line_height) / 256;
-		data->rc.color = *(unsigned int*)(data->textures[data->rc.tex_num].addr + (data->rc.tex_y * data->textures[data->rc.tex_num].line_length + data->rc.tex_x * (data->textures[data->rc.tex_num].bits_per_pixel / 8)));
+		data->rc.color = *(unsigned int*)(data->textures[data->rc.tex_num].addr + \
+		(data->rc.tex_y * data->textures[data->rc.tex_num].line_length + data->rc.tex_x * \
+		(data->textures[data->rc.tex_num].bits_per_pixel / 8)));
 		my_mlx_pixel_put(data, data->rc.x, data->rc.y, data->rc.color);
 		data->rc.y++;
 	}
 }
 
+void	minimap_init(t_minimap *minimap, t_data *data)
+{
+	minimap->size_x = 24;// Taille de la mini carte en cases
+	minimap->size_y = 11;// Taille de la mini carte en cases
+	minimap->pos_x = data->width - (50);
+	minimap->pos_y = 50;
+	minimap->x = 0;
+}
+
+void	player_drawer(t_minimap *minimap, t_data *data)
+{
+	minimap->player_x = minimap->pos_x - data->player.pos_x * 10;
+	minimap->player_y = minimap->pos_y + data->player.pos_y * 10;
+	minimap->i = 0;
+	while (minimap->i <= 6)
+	{
+		minimap->j = 0;
+		while (minimap->j <= 6)
+		{
+			my_mlx_pixel_put(data, minimap->player_x + minimap->i + 10, minimap->player_y + minimap->j, 0xFFFFFF);  // Rouge pour le joueur
+			minimap->j++;
+		}
+		minimap->i++;
+	}
+}
+
 void mini_mapper(t_data *data)
 {
-    printf("ok\n");
-    int pos_x;
-    int pos_y;
-    int size_x;
-    int size_y;
-    int player_x;
-    int player_y;
-    int x = 0;
-    int y;
-    int i;
-    int j;
+	t_minimap minimap;
 
-    size_x = 24;  // Taille de la mini carte en cases
-    size_y = 11;  // Taille de la mini carte en cases
-    pos_x = data->width - (50);
-    pos_y = 50;
-
-    // Dessiner la mini carte
-    while (x < size_x)
-    {
-        y = 0;
-        while (y < size_y)
-        {   
-            i = 0;
-            while (i < 10)
-            {
-                j = 0;
-                while (j < 10)
-                {
-                    if (data->map[y][x] == '1')
-                        my_mlx_pixel_put(data, pos_x - (x * 10) + i, pos_y + (y * 10) + j, 0x2F2F2F);  // Mur en noir
-                    // else if (data->map[y][x] == '0') 
-                    //     my_mlx_pixel_put(data, pos_x - (x * 10) + i, pos_y + (y * 10) + j, 0x6C6E6B);  // Vide en blanc
-                    j++;
-                }
-                i++;
-            }
-            y++;
-        }
-        x++;
-    }
-    player_x = pos_x - data->player.pos_x * 10;
-    player_y = pos_y + data->player.pos_y * 10;
-    i = 0;
-    while (i <= 6)
-    {
-        j = 0;
-        while (j <= 6)
-        {
-            my_mlx_pixel_put(data, player_x + i + 10, player_y + j, 0xFFFFFF);  // Rouge pour le joueur
-            j++;
-        }
-        i++;
-    }
+	minimap_init(&minimap, data);
+	while (minimap.x < minimap.size_x)
+	{
+		minimap.y = 0;
+		while (minimap.y < minimap.size_y)
+		{   
+			minimap.i = 0;
+			while (minimap.i < 10)
+			{
+				minimap.j = 0;
+				while (minimap.j < 10)
+				{
+					if (data->map[minimap.y][minimap.x] == '1')
+						my_mlx_pixel_put(data, minimap.pos_x - (minimap.x * 10) + minimap.i, minimap.pos_y + (minimap.y * 10) + minimap.j, 0x2F2F2F);  // Mur en noir
+					minimap.j++;
+				}
+				minimap.i++;
+			}
+			minimap.y++;
+		}
+		minimap.x++;
+	}
+	player_drawer(&minimap, data);
 }
 
 
@@ -548,41 +577,41 @@ int	main(int argc, char **argv)
 /*
 void start_and_dir(t_data *data, t_player *player)
 
-    But : Déterminer la direction dans laquelle un rayon est lancé à partir de la position du joueur.
-    Ce qu'elle fait : Calcule où se trouve le joueur et dans quelle direction le rayon partira.
+	But : Déterminer la direction dans laquelle un rayon est lancé à partir de la position du joueur.
+	Ce qu'elle fait : Calcule où se trouve le joueur et dans quelle direction le rayon partira.
 
 void send_ray_helper(t_data *data, t_player *player)
 
-    But : Calculer la distance entre le joueur et le prochain mur.
-    Ce qu'elle fait : Détermine les distances aux bords de la case en fonction de la direction du rayon.
+	But : Calculer la distance entre le joueur et le prochain mur.
+	Ce qu'elle fait : Détermine les distances aux bords de la case en fonction de la direction du rayon.
 
 void hit_checker(t_data *data)
 
-    But : Vérifier quand le rayon touche un mur.
-    Ce qu'elle fait : Avance pas à pas jusqu'à ce que le rayon rencontre un mur.
+	But : Vérifier quand le rayon touche un mur.
+	Ce qu'elle fait : Avance pas à pas jusqu'à ce que le rayon rencontre un mur.
 
 void col_wall_sizer(t_data *data, t_player *player)
 
-    But : Calculer la taille du mur à dessiner.
-    Ce qu'elle fait : Calcule la hauteur du mur en fonction de la distance entre le joueur et le mur.
+	But : Calculer la taille du mur à dessiner.
+	Ce qu'elle fait : Calcule la hauteur du mur en fonction de la distance entre le joueur et le mur.
 
 void wall_orientation(t_data *data)
 
-    But : Déterminer quel côté du mur le rayon a touché.
-    Ce qu'elle fait : Identifie l'orientation du mur touché (nord, sud, est, ou ouest).
+	But : Déterminer quel côté du mur le rayon a touché.
+	Ce qu'elle fait : Identifie l'orientation du mur touché (nord, sud, est, ou ouest).
 
 void wall_drawer(t_data *data, t_player *player)
 
-    But : Dessiner le mur sur l'écran.
-    Ce qu'elle fait : Utilise la texture appropriée pour dessiner le mur, en fonction de l'endroit où il a été touché.
+	But : Dessiner le mur sur l'écran.
+	Ce qu'elle fait : Utilise la texture appropriée pour dessiner le mur, en fonction de l'endroit où il a été touché.
 
 void mini_mapper(t_data *data)
 
-    But : Dessiner une mini-carte de l'environnement.
-    Ce qu'elle fait : Affiche une petite carte avec la position des murs et du joueur.
+	But : Dessiner une mini-carte de l'environnement.
+	Ce qu'elle fait : Affiche une petite carte avec la position des murs et du joueur.
 
 void raycasting(t_data *data, t_player *player)
 
-    But : Lancer des rayons pour dessiner la scène.
-    Ce qu'elle fait : Utilise toutes les fonctions précédentes pour lancer des rayons et dessiner les murs, puis affiche la mini-carte
+	But : Lancer des rayons pour dessiner la scène.
+	Ce qu'elle fait : Utilise toutes les fonctions précédentes pour lancer des rayons et dessiner les murs, puis affiche la mini-carte
 */

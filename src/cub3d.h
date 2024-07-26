@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:35:46 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/07/25 17:35:35 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:59:58 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,16 @@ typedef struct s_texture
 
 typedef struct s_minimap
 {
-	int				width;
-	int				height;
-	int				x;
-	int				y;
-	int				map_x;
-	int				map_y;
-	int				minimap_x;
-	int				minimap_y;
+	int				pos_x;
+    int 			pos_y;
+    int 			size_x;
+    int 			size_y;
+    int 			player_x;
+    int 			player_y;
+    int 			x;
+    int 			y;
+    int 			i;
+    int 			j;
 }					t_minimap;
 
 typedef struct s_raycast
@@ -124,7 +126,6 @@ typedef struct s_data
 	t_player		player;
 	t_raycast		rc;
 	t_texture		textures[4];
-	t_minimap		minimap;
 }					t_data;
 
 	// map_x et map_y :
