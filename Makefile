@@ -20,6 +20,9 @@ LIBFT_DIR = libft
 # Fichiers sources
 SRC = $(SRC_DIR)/main.c $(GNL_DIR)/get_next_line.c $(GNL_DIR)/get_next_line_utils.c $(PARSE_DIR)get_color.c $(PARSE_DIR)get_texture.c $(PARSE_DIR)utils.c 
 
+# Fichiers headers
+HEADERS = $(SRC_DIR)/cub3d.h $(PARSE_DIR)parsing.h $(GNL_DIR)get_next_line.h
+
 # Fichiers objets
 OBJ = $(SRC:.c=.o)
 
@@ -27,26 +30,26 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME)
 
 # Compilation des fichiers objets
-%.o: %.c cub3d.h
-	@$(CC) $(CFLAGS) -c $< -o $@
+%.o: %.c $(HEADERS)
+	@$(CC) $(CFLAGS) -c $< -o $@ > /dev/null 2>&1
 	@printf "\033[1A\033[KCompiling $<\r"
 
 # Génération de l'exécutable
 $(NAME): $(OBJ)
-	@make -C $(LIBFT_DIR)
-	@$(CC) $(OBJ) $(LIBMLX) $(LIBFT) -o $(NAME)
+	@make -C $(LIBFT_DIR) > /dev/null 2>&1
+	@$(CC) $(OBJ) $(LIBMLX) $(LIBFT) -o $(NAME) > /dev/null 2>&1
 	@printf "\033[38;5;220m\033[1A\033[KExecutable $(NAME) created\n\033[0m"
 
 # Nettoyage des fichiers objets
 clean:
-	@rm -rf $(OBJ)
-	@make -C $(LIBFT_DIR) clean
+	@rm -rf $(OBJ) > /dev/null 2>&1
+	@make -C $(LIBFT_DIR) clean > /dev/null 2>&1
 	@printf "\033[38;5;220m\033[1A\033[KCleaning objects\n\033[0m"
 
 # Nettoyage complet
 fclean: clean
-	@rm -f $(NAME)
-	@make -C $(LIBFT_DIR) fclean
+	@rm -f $(NAME) > /dev/null 2>&1
+	@make -C $(LIBFT_DIR) fclean > /dev/null 2>&1
 	@printf "\033[38;5;220m\033[1A\033[KRemoving $(NAME) and libraries\n\033[0m"
 
 # Recompilation complète

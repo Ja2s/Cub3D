@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:13:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/07/26 17:21:15 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/11 18:08:09 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ void	map_init(t_data *data)
 	data->map[1] = strdup("10100000000000000000001");
 	data->map[2] = strdup("10100000000000000000001");
 	data->map[3] = strdup("10100E00000000111111111");
-	data->map[4] = strdup("101000000000001		");
-	data->map[5] = strdup("101000000000001		");
-	data->map[6] = strdup("100011100000001		");
-	data->map[7] = strdup("101010000000001		");
-	data->map[8] = strdup("101011100000001		");
-	data->map[9] = strdup("101000100000001		");
-	data->map[10] = strdup("111111111111111		");
+	data->map[4] = strdup("101000000000001        ");
+	data->map[5] = strdup("101000000000001        ");
+	data->map[6] = strdup("100011100000001        ");
+	data->map[7] = strdup("101010000000001        ");
+	data->map[8] = strdup("101011100000001        ");
+	data->map[9] = strdup("101000100000001        ");
+	data->map[10] = strdup("111111111111111        ");
 	data->map[11] = NULL;
 	reverse_map(data->map);
 }
