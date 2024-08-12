@@ -6,12 +6,14 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:35:46 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/07/26 16:59:58 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/12 12:09:59 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
+
+#define M_PI 3.14159265358979323846
 
 # include "../minilibx-linux/mlx.h"
 # include <stdlib.h>
@@ -127,6 +129,44 @@ typedef struct s_data
 	t_raycast		rc;
 	t_texture		textures[4];
 }					t_data;
+
+void			start_and_dir(t_data *data, t_player *player);
+void			send_ray_helper(t_data *data, t_player *player);
+void			hit_checker(t_data *data);
+void			col_wall_sizer(t_data *data, t_player *player);
+void			wall_orientation(t_data *data);
+void			raycasting(t_data *data, t_player *player);
+void			wall_drawer(t_data *data, t_player *player);
+void			load_textures(t_data *data, t_texture *texture);
+void			data_init(t_data *data);
+void			player_init(t_player *player);
+void			choose_ew(t_player *player);
+void			choose_ns(t_player *player);
+void			reverse_line(char *line);
+void			reverse_map(char **map);
+unsigned int	color_converter(t_color color);
+void			my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void			draw_floor_and_sky(t_data *data, int x, int draw_start, int draw_end);
+int				key_press(int keycode, t_data *data);
+int				close_window(t_data *data);
+int				check_wall(t_data *data, double x, double y);
+int				is_wall(t_data *data, double x, double y);
+void			choose_ns(t_player *player);
+void			choose_ew(t_player *player);
+void			player_init(t_player *player);
+void			rotate_right(t_data *data);
+void			rotate_left(t_data *data);
+void			move_back(t_data *data);
+void			fordward(t_data *data);
+
+void	move_right(t_data *data);
+void	move_left(t_data *data);
+void	mini_mapper(t_data *data);
+
+
+
+
+void	map_init(t_data *data);
 
 	// map_x et map_y :
 	//	 La position du joueur en termes de case (cellule) sur la carte de jeu. Par exemple, si le joueur est dans la case (2, 3) de la grille.
