@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_color.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:14:48 by rasamad           #+#    #+#             */
-/*   Updated: 2024/07/24 11:06:14 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/13 13:27:08 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,15 @@ int	ft_fill_color_f(t_data *data, char *gnl, int i)
 	return (0);
 }
 
-//atoi(gnl + i) i etant au premier int
+//Function	: Recupere la couleur du ciel
+//Param 	: La struct data et la ligne contenant les valeurs RGB
+//Return	: ERROR --> -1 || SUCCESS --> 0
 int	ft_get_color_c(t_data *data, char *gnl)
 {
 	int	i;
 
 	i = 1;
-	if (gnl[0] == 'C' && gnl[1] == ' ')
+	if (gnl[0] == 'C' && (gnl[1] == ' ' || gnl[1] == '\t'))
 	{
 		if (data->sky.check)
 			return (printf("Error\ndouble C\n"), -1);
@@ -84,19 +86,23 @@ int	ft_get_color_c(t_data *data, char *gnl)
 			i++;
 		if (ft_fill_color_c(data, gnl, i) != 0)
 			return (-1);
+		if (data->sky.r > 255 || data->sky.g > 255 || data->sky.b > 255)
+			return (printf("Error\nColor C > 255"), -1);
 		data->nb_param = data->nb_param + 1;
 		data->sky.check = true;
 	}
 	return (0);
 }
 
-//atoi(gnl + i) i etant au premier int
+//Function	: Recupere la couleur du sol
+//Param 	: La struct data et la ligne contenant les valeurs RGB
+//Return	: ERROR --> -1 || SUCCESS --> 0
 int	ft_get_color_f(t_data *data, char *gnl)
 {
 	int	i;
 
 	i = 1;
-	if (gnl[0] == 'F' && gnl[1] == ' ')
+	if (gnl[0] == 'F' && (gnl[1] == ' ' || gnl[1] == '\t'))
 	{
 		if (data->floor.check)
 			return (printf("Error\ndouble F\n"), -1);
@@ -104,6 +110,8 @@ int	ft_get_color_f(t_data *data, char *gnl)
 			i++;
 		if (ft_fill_color_f(data, gnl, i) != 0)
 			return (-1);
+		if (data->floor.r > 255 || data->floor.g > 255 || data->floor.b > 255)
+			return (printf("Error\nColor F > 255"), -1);
 		data->nb_param = data->nb_param + 1;
 		data->floor.check = true;
 	}

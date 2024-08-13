@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:35:46 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/12 12:09:59 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/13 14:21:07 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,10 +163,23 @@ void	move_right(t_data *data);
 void	move_left(t_data *data);
 void	mini_mapper(t_data *data);
 
+int		ft_check_arg(t_data *data, char *arg_map);
+int		ft_strlen_cub(char *s, int choice);
+char	*ft_strdup_cub(char *str, int choice);
+int		ft_get_texture(t_data *data);
+int		ft_get_no(t_data *data, char *gnl);
+int		ft_get_so(t_data *data, char *gnl);
+int		ft_get_we(t_data *data, char *gnl);
+int		ft_get_ea(t_data *data, char *gnl);
+int		ft_fill_color_c(t_data *data, char *gnl, int	i);
+int		ft_fill_color_f(t_data *data, char *gnl, int	i);
+int		ft_get_color_c(t_data *data, char *gnl);
+int		ft_get_color_f(t_data *data, char *gnl);
+int		ft_get_map(t_data *data);
+
+void	ft_free_data(t_data data);
 
 
-
-void	map_init(t_data *data);
 
 	// map_x et map_y :
 	//	 La position du joueur en termes de case (cellule) sur la carte de jeu. Par exemple, si le joueur est dans la case (2, 3) de la grille.

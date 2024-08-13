@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:08:18 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/12 11:18:39 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/13 17:00:41 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	data_init(t_data *data)
 {
 	data->width = 1600;
 	data->height = 1000;
-	map_init(data);
 	data->mlx = mlx_init();
 	data->win = mlx_new_window(data->mlx, data->width, \
 	data->height, "Cub3D");

@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:06:37 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/12 12:27:49 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:38:11 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,6 @@ void	choose_ew(t_player *player)
 
 void	player_init(t_player *player)
 {
-	player->pos_x = 13;
-	player->pos_y = 3;
-	player->dir = 'W';
 	if (player->dir == 'E' || player->dir == 'W')
 		choose_ew(player);
 	else if (player->dir == 'N' || player->dir == 'S')
