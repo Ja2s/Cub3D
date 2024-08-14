@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:08:18 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/13 16:51:09 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:46:00 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	load_textures(t_data *data, t_texture *texture)
 
 void	data_init(t_data *data)
 {
-	//reverse_map(data->map);
 	data->width = 1600;
 	data->height = 1000;
 	data->mlx = mlx_init();

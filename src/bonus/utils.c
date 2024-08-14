@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 10:40:51 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/12 11:19:53 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:23:17 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	reverse_map(char **map)
 {
 	int	i;
 
-	i = 1;
+	i = 0;
 	while (map[i])
 	{
 		reverse_line(map[i]);

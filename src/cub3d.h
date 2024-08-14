@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:35:46 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/13 14:21:07 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/14 14:55:19 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ typedef struct s_data
 	int				width;
 	int				height;
 	int				nb_param;
+	int				size_x;
+	int				size_y;
 	t_color			sky;
 	t_color			floor;
 	t_player		player;
@@ -158,10 +160,10 @@ void			rotate_right(t_data *data);
 void			rotate_left(t_data *data);
 void			move_back(t_data *data);
 void			fordward(t_data *data);
-
-void	move_right(t_data *data);
-void	move_left(t_data *data);
-void	mini_mapper(t_data *data);
+char			*ft_strjoin_cub(char *s1, char *s2);
+void			move_right(t_data *data);
+void			move_left(t_data *data);
+void			mini_mapper(t_data *data);
 
 int		ft_check_arg(t_data *data, char *arg_map);
 int		ft_strlen_cub(char *s, int choice);

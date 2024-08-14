@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:32:15 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/13 12:54:02 by rasamad          ###   ########.fr       */
+/*   Updated: 2024/08/14 13:19:52 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,32 @@ void	ft_free_data(t_data data)
 		i++;
 	}
 	free(data.map);
+}
+
+char	*ft_strjoin_cub(char *s1, char *s2)
+{
+	char		*s3;
+	size_t		i;
+	size_t		j;
+	size_t		len_1;
+	size_t		len_2;
+
+	len_1 = tmp_len(s1, 2);
+	len_2 = tmp_len(s2, 1);
+	i = 0;
+	j = 0;
+	if (!s1 && !s2)
+		return (NULL);
+	s3 = malloc((len_1 + len_2 + 1) * sizeof(char));
+	if (!s3)
+		return (NULL);
+	while (i < len_1)
+	{
+		s3[i] = s1[i];
+		i++;
+	}
+	while (j < len_2 && s2[j])
+		s3[i++] = s2[j++];
+	s3[i] = '\0';
+	return (s3);
 }

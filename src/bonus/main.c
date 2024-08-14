@@ -6,27 +6,11 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:13:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/13 17:02:13 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:10:26 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-int	ft_get_map(t_data *data)
-{
-	char	*gnl;
-
-	printf("map : \n");
-	gnl = get_next_line(data->fd);
-	while (gnl)
-	{
-		printf("%s", gnl);
-		free(gnl);
-		gnl = get_next_line(data->fd);
-	}
-	free(gnl); // Libérer la mémoire allouée par la dernière appel à get_next_line
-	return (0);
-}
 
 //Function	: Lance le parsing du programme
 //Param 	: La struct data, le nombre et le contenue des argument du main

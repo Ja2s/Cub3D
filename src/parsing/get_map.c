@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:35:09 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/13 17:04:31 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:22:54 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ int	ft_fill_map(t_data *data)
 		return (printf("Error\nEmpty map\n"), free(tmp_s1), -1);
 	while (s2)
 	{
-		s1 = ft_strjoin(tmp_s1, s2);
+		s1 = ft_strjoin_cub(tmp_s1, s2);
 		if (!s1)
 			return (printf("Error\nEmpty map\n"), free(tmp_s1), free(s2), -1);
-		//free(tmp_s1);
+		free(tmp_s1);
 		tmp_s1 = s1;
 		free(s2);
 		s2 = get_next_line(data->fd);
@@ -141,19 +141,11 @@ int	ft_get_map(t_data *data)
 		return (printf("Error\nIncorrect number of players\n"), -1);
 	if (ft_is_map_enclosed_wall(data) != 0)
 		return (-1);
-	i = 0;
-	while (data->map[i])
-	{
-		printf("%s\n", data->map[i]);
-		free(data->map[i]);
-		i++;
-	}
 	reverse_map(data->map);
 	i = 0;
 	while (data->map[i])
 	{
 		printf("%s\n", data->map[i]);
-		free(data->map[i]);
 		i++;
 	}
 	return (0);
