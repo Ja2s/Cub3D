@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:35:09 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/14 15:22:54 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/15 10:36:53 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ int	ft_get_map(t_data *data)
 	nb_player = 0;
 	if (ft_fill_map(data) != 0)
 		return (-1);
+	reverse_map(data->map);
 	while (data->map[i])
 	{
 		if (ft_is_map_char_valid(data, data->map[i], &nb_player, i) != 0)
@@ -141,7 +142,6 @@ int	ft_get_map(t_data *data)
 		return (printf("Error\nIncorrect number of players\n"), -1);
 	if (ft_is_map_enclosed_wall(data) != 0)
 		return (-1);
-	reverse_map(data->map);
 	i = 0;
 	while (data->map[i])
 	{

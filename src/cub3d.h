@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:35:46 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/14 14:55:19 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/15 10:58:45 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_minimap
     int 			pos_y;
     int 			size_x;
     int 			size_y;
+	int				size;
     int 			player_x;
     int 			player_y;
     int 			x;

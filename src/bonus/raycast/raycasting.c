@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:10:28 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/12 11:16:35 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/15 11:58:49 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	wall_orientation(t_data *data)
 	else if (data->rc.side == 0 && data->rc.ray_dir_x >= 0)
 		data->rc.tex_num = 3; // Mur vers l'ouest
 	else if (data->rc.side == 1 && data->rc.ray_dir_y < 0)
-		data->rc.tex_num = 0; // Mur vers le nord
+		data->rc.tex_num = 1; // Mur vers le nord
 	else
-		data->rc.tex_num = 1; // Mur vers le sud
+		data->rc.tex_num = 0; // Mur vers le sud
 }
