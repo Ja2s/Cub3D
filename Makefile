@@ -26,13 +26,13 @@ SRC = 			$(BIN_DIR)main.c $(BIN_DIR)action_key.c $(BIN_DIR)init.c $(BIN_DIR)util
 				$(BIN_DIR)player_init.c $(BIN_DIR)player_hitbox.c $(BIN_DIR)player_move.c \
 				$(RAY_DIR)raycasting.c $(RAY_DIR)raycasting_utils.c \
 				$(GNL_DIR)/get_next_line.c $(GNL_DIR)/get_next_line_utils.c \
-				$(PARSE_DIR)get_color.c $(PARSE_DIR)get_texture.c $(PARSE_DIR)utils.c $(PARSE_DIR)get_map.c 
+				$(PARSE_DIR)get_color.c $(PARSE_DIR)get_texture.c $(PARSE_DIR)utils.c $(PARSE_DIR)get_map.c $(PARSE_DIR)cpy_map.c 
 
 SRC_BONUS = 	$(BONUS_DIR)main.c $(BONUS_DIR)action_key.c $(BONUS_DIR)init.c $(BONUS_DIR)utils.c $(BONUS_DIR)minimap.c \
 				$(BONUS_DIR)player_init.c $(BONUS_DIR)player_hitbox.c $(BONUS_DIR)player_move.c $(BONUS_DIR)player_move_bonus.c \
 				$(BONUS_DIR)raycast/raycasting.c $(BONUS_DIR)raycast/raycasting_utils.c \
 				$(GNL_DIR)/get_next_line.c $(GNL_DIR)/get_next_line_utils.c \
-				$(PARSE_DIR)get_color.c $(PARSE_DIR)get_texture.c $(PARSE_DIR)utils.c $(PARSE_DIR)get_map.c 
+				$(PARSE_DIR)get_color.c $(PARSE_DIR)get_texture.c $(PARSE_DIR)utils.c $(PARSE_DIR)get_map.c $(PARSE_DIR)cpy_map.c
 
 # Fichiers headers
 HEADERS = $(INC_DIR)/cub3d.h $(PARSE_DIR)parsing.h $(GNL_DIR)get_next_line.h

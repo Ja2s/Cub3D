@@ -6,7 +6,7 @@
 /*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:14:48 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/13 13:27:08 by rasamad          ###   ########.fr       */
+/*   Updated: 2024/08/15 14:12:02 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,40 @@
 
 int	ft_fill_color_c(t_data *data, char *gnl, int i)
 {
+	/*RECUPE R*/
 	if (gnl[i] >= '0' && gnl[i] <= '9')
 		data->sky.r = ft_atoi(gnl + i);
 	else
 		return (printf("Error\nC iNvalid format\n"), -1);
+	/*RECUPE G*/
 	while (gnl[i] >= '0' && gnl[i] <= '9')
+		i++;
+	while (gnl[i] == ' ')
 		i++;
 	if (gnl[i] != ',')
 		return (printf("Error\nC inValid format\n"), -1);
 	i++;
+	while (gnl[i] == ' ')
+		i++;
 	if (!(gnl[i] >= '0' && gnl[i] <= '9'))
 		return (printf("Error\nC invAlid format\n"), -1);
 	data->sky.g = ft_atoi(gnl + i);
+	/*RECUPE B*/
 	while (gnl[i] >= '0' && gnl[i] <= '9')
+		i++;
+	while (gnl[i] == ' ')
 		i++;
 	if (gnl[i] != ',')
 		return (printf("Error\nC invaLid format\n"), -1);
 	i++;
+	while (gnl[i] == ' ')
+		i++;
 	if (!(gnl[i] >= '0' && gnl[i] <= '9'))
 		return (printf("Error\nC invaliD format\n"), -1);
 	data->sky.b = ft_atoi(gnl + i);
 	while (gnl[i] >= '0' && gnl[i] <= '9')
+		i++;
+	while (gnl[i] == ' ')
 		i++;
 	if (gnl[i] != '\n')
 		return (printf("Error\nC invalid FormaT\n"), -1);
@@ -43,27 +56,40 @@ int	ft_fill_color_c(t_data *data, char *gnl, int i)
 
 int	ft_fill_color_f(t_data *data, char *gnl, int i)
 {
+	/*RECUPE R*/
 	if (gnl[i] >= '0' && gnl[i] <= '9')
 		data->floor.r = ft_atoi(gnl + i);
 	else
 		return (printf("Error\nF iNvalid format\n"), -1);
+	/*RECUPE G*/
 	while (gnl[i] >= '0' && gnl[i] <= '9')
+		i++;
+	while (gnl[i] == ' ')
 		i++;
 	if (gnl[i] != ',')
 		return (printf("Error\nF inValid format\n"), -1);
 	i++;
+	while (gnl[i] == ' ')
+		i++;
 	if (!(gnl[i] >= '0' && gnl[i] <= '9'))
 		return (printf("Error\nF invAlid format\n"), -1);
 	data->floor.g = ft_atoi(gnl + i);
+	/*RECUPE B*/
 	while (gnl[i] >= '0' && gnl[i] <= '9')
+		i++;
+	while (gnl[i] == ' ')
 		i++;
 	if (gnl[i] != ',')
 		return (printf("Error\nF invaLid format\n"), -1);
 	i++;
+	while (gnl[i] == ' ')
+		i++;
 	if (!(gnl[i] >= '0' && gnl[i] <= '9'))
 		return (printf("Error\nF invaliD format\n"), -1);
 	data->floor.b = ft_atoi(gnl + i);
 	while (gnl[i] >= '0' && gnl[i] <= '9')
+		i++;
+	while (gnl[i] == ' ')
 		i++;
 	if (gnl[i] != '\n')
 		return (printf("Error\nF invalid FormaT\n"), -1);

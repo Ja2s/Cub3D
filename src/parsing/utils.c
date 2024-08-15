@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:32:15 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/14 13:19:52 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/15 15:29:39 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,14 @@ int	ft_check_arg(t_data *data, char *arg_map)
 {
 	int	len;
 
+	data->map = NULL;
+	data->m = NULL;
+	data->textures[0].path = NULL;
+	data->textures[1].path = NULL;
+	data->textures[2].path = NULL;
+	data->textures[3].path = NULL;
+	data->floor.check = false;
+	data->sky.check = false;
 	len = ft_strlen_cub(arg_map, 0);
 	if (len <= 4)
 		return (-1);
@@ -47,12 +55,6 @@ int	ft_check_arg(t_data *data, char *arg_map)
 		return (-1);
 	if (arg_map[len - 1] != 'b')
 		return (-1);
-	data->textures[0].path = NULL;
-	data->textures[1].path = NULL;
-	data->textures[2].path = NULL;
-	data->textures[3].path = NULL;
-	data->floor.check = false;
-	data->sky.check = false;
 	return (0);
 }
 
@@ -76,8 +78,23 @@ char	*ft_strdup_cub(char *str, int choice)
 	return (tmp);
 }
 
+void	ft_strcpy(char *dst, const char *src)
+{
+	size_t	i;
+
+	i = 0;
+	while (src[i])
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+}
+
 void	ft_free_data(t_data data)
 {
+	printf("\nF (R %d\tG %d\tB %d)\n", data.floor.r, data.floor.g, data.floor.b);
+	printf("C (R %d\tG %d\tB %d)\n", data.sky.r, data.sky.g, data.sky.b);
 	int	i;
 
 	if (data.textures[0].path)
@@ -88,12 +105,27 @@ void	ft_free_data(t_data data)
 		free(data.textures[2].path);
 	if (data.textures[3].path)
 		free(data.textures[3].path);
+
+	
+	
+	
+	i = 0;
+	if (!data.m)
+		return ;
+	while (data.m[i])
+	{
+		printf("%s\n", data.m[i]);
+		free(data.m[i]);
+		i++;
+	}
+	free(data.m);
 	i = 0;
 	if (!data.map)
 		return ;
 	while (data.map[i])
 	{
 		printf("%s\n", data.map[i]);
+
 		free(data.map[i]);
 		i++;
 	}

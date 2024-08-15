@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:35:46 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/15 10:58:45 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/15 15:34:16 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ typedef struct s_data
 	void			*img;
 	char			*addr;
 	char			**map;
+	char			**m;
 	int				fd;
 	int				bits_per_pixel;
 	int				floor_color;
@@ -169,6 +170,7 @@ void			mini_mapper(t_data *data);
 int		ft_check_arg(t_data *data, char *arg_map);
 int		ft_strlen_cub(char *s, int choice);
 char	*ft_strdup_cub(char *str, int choice);
+void	ft_strcpy(char *dst, const char *src);
 int		ft_get_texture(t_data *data);
 int		ft_get_no(t_data *data, char *gnl);
 int		ft_get_so(t_data *data, char *gnl);
@@ -179,7 +181,9 @@ int		ft_fill_color_f(t_data *data, char *gnl, int	i);
 int		ft_get_color_c(t_data *data, char *gnl);
 int		ft_get_color_f(t_data *data, char *gnl);
 int		ft_get_map(t_data *data);
-
+int		ft_is_map_enclosed_wall(t_data *data);
+int		ft_cpy_map(t_data *data);
+void	raycasting(t_data *data, t_player *player);
 void	ft_free_data(t_data data);
 
 

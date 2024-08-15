@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 10:55:12 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/15 13:09:39 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/15 15:33:48 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	minimap_init(t_minimap *minimap, t_data *data)
 {
-	// minimap->size_x = data->size_x;// Taille de la mini carte en cases
-	// minimap->size_y = data->size_y;// Taille de la mini carte en cases
-	minimap->size_x = 70;// Taille de la mini carte en cases
-	minimap->size_y = 45;// Taille de la mini carte en cases
+	minimap->size_x = data->size_x;// Taille de la mini carte en cases
+	minimap->size_y = data->size_y;// Taille de la mini carte en cases
 	minimap->size = 10;
 	if (minimap->size_x >= 50 || minimap->size_y >= 50)
 		minimap->size = 8;
