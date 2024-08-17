@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:13:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/14 13:10:26 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:33:29 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	main(int argc, char **argv)
 		return (ft_free_data(data), -1);
 	
 	player_init(&data.player);
-	data_init(&data);
+	if (data_init(&data) == FAILURE)
+		return (ft_free_data(data), FAILURE);
 
 	raycasting(&data, &data.player);
 	mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);

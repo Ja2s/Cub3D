@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:35:09 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/15 15:49:59 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/17 13:46:30 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ int	ft_is_map_char_valid(t_data *data, char *s, int *nb_player, int y)
 		if (s[i] == 'N' || s[i] == 'S' || s[i] == 'W' || s[i] == 'E')
 		{
 			data->player.dir = s[i];
-			data->player.pos_x = (int)i;
-			data->player.pos_y = (int)y;
+			data->player.pos_x = (i + 0.5);
+			data->player.pos_y = (y + 0.5);
 			*nb_player = *nb_player + 1;
 		}
 		if (s[i] != '1' && s[i] != '0' && s[i] != ' ' && s[i] != '\t' && \

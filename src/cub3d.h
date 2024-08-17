@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:35:46 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/15 15:34:16 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:24:41 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define CUB3D_H
 
 #define M_PI 3.14159265358979323846
+#define SUCCESS 0
+#define FAILURE -1
 
 # include "../minilibx-linux/mlx.h"
 # include <stdlib.h>
@@ -141,8 +143,8 @@ void			col_wall_sizer(t_data *data, t_player *player);
 void			wall_orientation(t_data *data);
 void			raycasting(t_data *data, t_player *player);
 void			wall_drawer(t_data *data, t_player *player);
-void			load_textures(t_data *data, t_texture *texture);
-void			data_init(t_data *data);
+int				load_textures(t_data *data, t_texture *texture);
+int				data_init(t_data *data);
 void			player_init(t_player *player);
 void			choose_ew(t_player *player);
 void			choose_ns(t_player *player);

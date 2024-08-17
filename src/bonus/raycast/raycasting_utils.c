@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:13:51 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/12 11:41:43 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/17 14:35:21 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	raycasting(t_data *data, t_player *player)
 
 	while (data->rc.x < data->width)
 	{
+		//printf("Player_Infos:\n\tpos_x: %f\n\tpos_y: %f\n", player->pos_x, player->pos_y);
 		start_and_dir(data, player);
 		send_ray_helper(data, player);
 		hit_checker(data);
