@@ -18,6 +18,7 @@ BIN_DIR = src/bin/
 RAY_DIR = src/bin/raycast/
 BONUS_DIR = src/bonus/
 PARSE_DIR = src/parsing/
+MLX_DIR = minilibx-linux/
 GNL_DIR = gnl
 LIBFT_DIR = libft
 
@@ -48,7 +49,8 @@ all: $(NAME)
 bonus: $(NAME_BONUS)
 
 $(NAME_BONUS): $(OBJ_BONUS)
-	@make -C $(LIBFT_DIR) 
+	@make -C $(LIBFT_DIR) > /dev/null 2>&1
+	@make -C $(MLX_DIR) > /dev/null 2>&1
 	@$(CC) $(OBJ_BONUS) $(LIBMLX) $(LIBFT) -o $(NAME_BONUS) 
 	@printf "\033[38;5;220m\033[1A\033[KExecutable $(NAME_BONUS) created\n\033[0m"
 
@@ -59,6 +61,7 @@ $(NAME_BONUS): $(OBJ_BONUS)
 
 # Génération de l'exécutable
 $(NAME): $(OBJ)
+	@make -C $(MLX_DIR) > /dev/null 2>&1
 	@make -C $(LIBFT_DIR) > /dev/null 2>&1
 	@$(CC) $(OBJ) $(LIBMLX) $(LIBFT) -o $(NAME) > /dev/null 2>&1
 	@printf "\033[38;5;220m\033[1A\033[KExecutable $(NAME) created\n\033[0m"
@@ -67,6 +70,7 @@ $(NAME): $(OBJ)
 clean:
 	@rm -rf $(OBJ) $(OBJ_BONUS) > /dev/null 2>&1
 	@make -C $(LIBFT_DIR) clean > /dev/null 2>&1
+	@make -C $(MLX_DIR) clean > /dev/null 2>&1
 	@printf "\033[38;5;220m\033[1A\033[KCleaning objects\n\033[0m"
 
 # Nettoyage complet
@@ -74,6 +78,7 @@ fclean: clean
 	@rm -f $(NAME) > /dev/null 2>&1
 	@rm -f $(NAME_BONUS) > /dev/null 2>&1
 	@make -C $(LIBFT_DIR) fclean > /dev/null 2>&1
+	@make -C $(MLX_DIR) clean > /dev/null 2>&1
 	@printf "\033[38;5;220m\033[1A\033[KRemoving $(NAME), $(NAME_BONUS) and libraries\n\033[0m"
 
 # Recompilation complète
