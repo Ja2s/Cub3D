@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:06:37 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/13 16:39:31 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:06:48 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ void	player_init(t_player *player)
 		choose_ew(player);
 	else if (player->dir == 'N' || player->dir == 'S')
 		choose_ns(player);
-	player->move_speed = 0.1;
+	player->move_speed = 0.04;
 }
 

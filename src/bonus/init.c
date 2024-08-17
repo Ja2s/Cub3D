@@ -6,11 +6,21 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:08:18 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/17 14:40:52 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:11:53 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+void keys_init(t_keys *keys)
+{
+    keys->w = 0;
+    keys->a = 0;
+    keys->s = 0;
+    keys->d = 0;
+    keys->q = 0;
+    keys->e = 0;
+}
 
 int	load_textures(t_data *data, t_texture *texture)
 {
@@ -38,7 +48,7 @@ int	texture_init(t_data *data)
 
 int	data_init(t_data *data)
 {
-	data->width = 1600;
+	data->width = 1800;
 	data->height = 1000;
 	data->win = NULL;
 	data->mlx = mlx_init();
@@ -57,6 +67,7 @@ int	data_init(t_data *data)
 		return (write(2, "ERROR ADDR\n", 10), FAILURE);
 	if (texture_init(data) == FAILURE)
 		return (FAILURE);
+	keys_init(&data->keys);
 	data->floor_color = color_converter(data->floor);
 	data->sky_color = color_converter(data->sky);
 	return (SUCCESS);

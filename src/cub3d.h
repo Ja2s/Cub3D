@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:35:46 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/17 14:24:41 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:07:55 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@
 # include <stdbool.h>
 # include <fcntl.h>
 # include <string.h>
+
+typedef struct s_keys
+{
+    int w;
+    int a;
+    int s;
+    int d;
+    int q;
+    int	e;
+} 		t_keys;
 
 typedef struct s_color
 {
@@ -129,6 +139,7 @@ typedef struct s_data
 	int				nb_param;
 	int				size_x;
 	int				size_y;
+	t_keys			keys;
 	t_color			sky;
 	t_color			floor;
 	t_player		player;
@@ -154,6 +165,7 @@ unsigned int	color_converter(t_color color);
 void			my_mlx_pixel_put(t_data *data, int x, int y, int color);
 void			draw_floor_and_sky(t_data *data, int x, int draw_start, int draw_end);
 int				key_press(int keycode, t_data *data);
+int				key_release(int keycode, t_data *data);
 int				close_window(t_data *data);
 int				check_wall(t_data *data, double x, double y);
 int				is_wall(t_data *data, double x, double y);

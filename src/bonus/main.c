@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:13:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/17 14:33:29 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:04:47 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,25 @@ int	ft_parser(t_data *data, int ac, char **av)
 	return (0);
 }
 
+int	game_loop(t_data *data)
+{
+    if (data->keys.w)
+        fordward(data);
+    if (data->keys.a)
+        rotate_left(data);
+    if (data->keys.s)
+        move_back(data);
+    if (data->keys.d)
+        rotate_right(data);
+    if (data->keys.q)
+        move_left(data);
+    if (data->keys.e)
+        move_right(data);
+    raycasting(data, &data->player);
+    mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+    return (0);
+}
+
 int	main(int argc, char **argv)
 {
 	t_data	data;
@@ -43,11 +62,13 @@ int	main(int argc, char **argv)
 	if (data_init(&data) == FAILURE)
 		return (ft_free_data(data), FAILURE);
 
-	raycasting(&data, &data.player);
-	mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
+	//raycasting(&data, &data.player);
+	//mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
 
-	mlx_hook(data.win, 17, 0, close_window, &data);
-	mlx_hook(data.win, 2, 1L<<0, key_press, &data);
+	mlx_loop_hook(data.mlx, game_loop, &data); // Ajout de la boucle principale
+    mlx_hook(data.win, 17, 0, close_window, &data);
+    mlx_hook(data.win, 2, 1L<<0, key_press, &data);
+    mlx_hook(data.win, 3, 1L<<1, key_release, &data); // Pour détecter quand une touche est relâchée
 
 	mlx_loop(data.mlx);
 
