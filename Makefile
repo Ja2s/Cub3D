@@ -61,9 +61,9 @@ $(NAME_BONUS): $(OBJ_BONUS)
 
 # Génération de l'exécutable
 $(NAME): $(OBJ)
-	@make -C $(MLX_DIR) > /dev/null 2>&1
-	@make -C $(LIBFT_DIR) > /dev/null 2>&1
-	@$(CC) $(OBJ) $(LIBMLX) $(LIBFT) -o $(NAME) > /dev/null 2>&1
+	@make -C $(MLX_DIR)
+	@make -C $(LIBFT_DIR)
+	@$(CC) $(OBJ) $(LIBMLX) $(LIBFT) -o $(NAME)
 	@printf "\033[38;5;220m\033[1A\033[KExecutable $(NAME) created\n\033[0m"
 
 # Nettoyage des fichiers objets

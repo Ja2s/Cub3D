@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:13:51 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 00:23:42 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 00:40:39 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,4 @@ void	raycasting(t_data *data, t_player *player)
 		data->rc.draw_start, data->rc.draw_end);
 		data->rc.x++;
 	}
-	mini_mapper(data);
 }
