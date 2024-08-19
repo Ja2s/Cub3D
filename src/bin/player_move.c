@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 10:43:31 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/12 12:27:34 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 00:08:04 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,15 @@ void	rotate_left(t_data *data)
 	double	old_plane_x;
 
 	old_dir_x = data->player.dir_x;
-	data->player.dir_x = data->player.dir_x * cos(0.05) - \
-	data->player.dir_y * sin(0.05);
-	data->player.dir_y = old_dir_x * sin(0.05) + \
-	data->player.dir_y * cos(0.05);
+	data->player.dir_x = data->player.dir_x * \
+	cos(0.05) - data->player.dir_y * sin(0.05);
+	data->player.dir_y = old_dir_x * \
+	sin(0.05) + data->player.dir_y * cos(0.05);
 	old_plane_x = data->player.plane_x;
-	data->player.plane_x = data->player.plane_x * cos(0.05) - \
-	data->player.plane_y * sin(0.05);
-	data->player.plane_y = old_plane_x * sin(0.05) + \
-	data->player.plane_y * cos(0.05);
+	data->player.plane_x = data->player.plane_x * \
+	cos(0.05) - data->player.plane_y * sin(0.05);
+	data->player.plane_y = old_plane_x * \
+	sin(0.05) + data->player.plane_y * cos(0.05);
 }
 
 void	rotate_right(t_data *data)
@@ -65,13 +65,13 @@ void	rotate_right(t_data *data)
 	double	old_plane_x;
 
 	old_dir_x = data->player.dir_x;
-	data->player.dir_x = data->player.dir_x * cos(-0.05) - \
-	data->player.dir_y * sin(-0.05);
-	data->player.dir_y = old_dir_x * sin(-0.05) + \
-	data->player.dir_y * cos(-0.05);
+	data->player.dir_x = data->player.dir_x * \
+	cos(-0.05) - data->player.dir_y * sin(-0.05);
+	data->player.dir_y = old_dir_x * \
+	sin(-0.05) + data->player.dir_y * cos(-0.05);
 	old_plane_x = data->player.plane_x;
-	data->player.plane_x = data->player.plane_x * cos(-0.05) - \
-	data->player.plane_y * sin(-0.05);
-	data->player.plane_y = old_plane_x * sin(-0.05) + \
-	data->player.plane_y * cos(-0.05);
+	data->player.plane_x = data->player.plane_x * \
+	cos(-0.05) - data->player.plane_y * sin(-0.05);
+	data->player.plane_y = old_plane_x * \
+	sin(-0.05) + data->player.plane_y * cos(-0.05);
 }

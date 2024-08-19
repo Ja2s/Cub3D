@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 10:55:12 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/15 15:33:48 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/19 23:53:50 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	minimap_init(t_minimap *minimap, t_data *data)
 {
-	minimap->size_x = data->size_x;// Taille de la mini carte en cases
-	minimap->size_y = data->size_y;// Taille de la mini carte en cases
+	minimap->size_x = data->size_x;
+	minimap->size_y = data->size_y;
 	minimap->size = 10;
 	if (minimap->size_x >= 50 || minimap->size_y >= 50)
 		minimap->size = 8;
@@ -40,23 +40,31 @@ void	player_drawer(t_minimap *minimap, t_data *data)
 		minimap->j = 0;
 		while (minimap->j <= (minimap->size / 1.66))
 		{
-			my_mlx_pixel_put(data, minimap->player_x + minimap->i + minimap->size, minimap->player_y + minimap->j, 0xFFFFFF);  // Rouge pour le joueur
+			my_mlx_pixel_put(data, minimap->player_x + minimap->i + \
+			minimap->size, minimap->player_y + minimap->j, 0xFFFFFF);
 			minimap->j++;
 		}
 		minimap->i++;
 	}
 }
 
-void mini_mapper(t_data *data)
+void	case_drawer(t_data *data, t_minimap *minimap)
 {
-	t_minimap minimap;
+	my_mlx_pixel_put(data, minimap->pos_x - (minimap->x * \
+	minimap->size) + minimap->i, minimap->pos_y + \
+	(minimap->y * minimap->size) + minimap->j, 0x2F2F2F);
+}
+
+void	mini_mapper(t_data *data)
+{
+	t_minimap	minimap;
 
 	minimap_init(&minimap, data);
 	while (minimap.x < minimap.size_x)
 	{
 		minimap.y = 0;
 		while (minimap.y < minimap.size_y)
-		{   
+		{
 			minimap.i = 0;
 			while (minimap.i < minimap.size)
 			{
@@ -64,7 +72,7 @@ void mini_mapper(t_data *data)
 				while (minimap.j < minimap.size)
 				{
 					if (data->map[minimap.y][minimap.x] == '1')
-						my_mlx_pixel_put(data, minimap.pos_x - (minimap.x * minimap.size) + minimap.i, minimap.pos_y + (minimap.y * minimap.size) + minimap.j, 0x2F2F2F);  // Mur en noir
+						case_drawer(data, &minimap);
 					minimap.j++;
 				}
 				minimap.i++;

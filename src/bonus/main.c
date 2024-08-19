@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:13:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/19 14:24:47 by rasamad          ###   ########.fr       */
+/*   Updated: 2024/08/20 00:05:28 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-//Function	: Lance le parsing du programme
-//Param 	: La struct data, le nombre et le contenue des argument du main
-//Return	: ERROR --> 1 || SUCCESS --> 0
+/* 	//Function	: Lance le parsing du programme
+	//Param 	: La struct data, le nombre et le contenue des argument du main
+	//Return	: ERROR --> 1 || SUCCESS --> 0 */
 int	ft_parser(t_data *data, int ac, char **av)
 {
 	if (ac != 2)
-		return (printf("Error\nNombre d'arguments incorrect\n"), -1);
+		return (printf("Error: bad number of arguments\n"), -1);
 	if (ft_check_arg(data, av[1]) != 0)
-		return (printf("Error\nLe fichier de description de scène doit avoir pour extension .cub\n"), -1);
+		return (printf("Error: the map file is not .cub\n"), -1);
 	data->fd = open(av[1], O_RDONLY);
 	if (data->fd == -1)
-		return (printf("Error\nOpen failed\n"), -1);
+		return (printf("Error: open failed\n"), -1);
 	if (ft_get_texture(data) < 6)
 		return (-1);
 	if (ft_get_map(data) != 0)
@@ -33,21 +33,21 @@ int	ft_parser(t_data *data, int ac, char **av)
 
 int	game_loop(t_data *data)
 {
-    if (data->keys.w)
-        fordward(data);
-    if (data->keys.a)
-        rotate_left(data);
-    if (data->keys.s)
-        move_back(data);
-    if (data->keys.d)
-        rotate_right(data);
-    if (data->keys.q)
-        move_left(data);
-    if (data->keys.e)
-        move_right(data);
-    raycasting(data, &data->player);
-    mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
-    return (0);
+	if (data->keys.w)
+		fordward(data);
+	if (data->keys.a)
+		rotate_left(data);
+	if (data->keys.s)
+		move_back(data);
+	if (data->keys.d)
+		rotate_right(data);
+	if (data->keys.q)
+		move_left(data);
+	if (data->keys.e)
+		move_right(data);
+	raycasting(data, &data->player);
+	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -57,25 +57,17 @@ int	main(int argc, char **argv)
 	data.map = NULL;
 	if (ft_parser(&data, argc, argv) != 0)
 		return (ft_free_data(argc, data), -1);
-	
 	player_init(&data.player);
 	if (data_init(&data) == FAILURE)
 		return (ft_free_data(argc, data), FAILURE);
-
-	//raycasting(&data, &data.player);
-	//mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
-
-	mlx_loop_hook(data.mlx, game_loop, &data); // Ajout de la boucle principale
-    mlx_hook(data.win, 17, 0, close_window, &data);
-    mlx_hook(data.win, 2, 1L<<0, key_press, &data);
-    mlx_hook(data.win, 3, 1L<<1, key_release, &data); // Pour détecter quand une touche est relâchée
-
+	mlx_loop_hook(data.mlx, game_loop, &data);
+	mlx_hook(data.win, 17, 0, close_window, &data);
+	mlx_hook(data.win, 2, 1L << 0, key_press, &data);
+	mlx_hook(data.win, 3, 1L << 1, key_release, &data);
 	mlx_loop(data.mlx);
-
 	return (ft_free_data(argc, data), 0);
 }
 
-// gcc -Wall -Werror -Wextra main.c -L./minilibx-linux/ -lmlx_Linux -lX11 -lXext -lm -o cub3d
 /*
 void start_and_dir(t_data *data, t_player *player)
 

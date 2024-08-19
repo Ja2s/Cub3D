@@ -6,13 +6,11 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:01:31 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/12 11:19:00 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 00:06:27 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-//permet de checker la case ou nous allons aller pour le prochain deplacement voir si cest un mur
 
 int	check_wall(t_data *data, double x, double y)
 {
