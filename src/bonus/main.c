@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:13:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/17 15:04:47 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/19 14:24:47 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ int	main(int argc, char **argv)
 
 	data.map = NULL;
 	if (ft_parser(&data, argc, argv) != 0)
-		return (ft_free_data(data), -1);
+		return (ft_free_data(argc, data), -1);
 	
 	player_init(&data.player);
 	if (data_init(&data) == FAILURE)
-		return (ft_free_data(data), FAILURE);
+		return (ft_free_data(argc, data), FAILURE);
 
 	//raycasting(&data, &data.player);
 	//mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
@@ -72,7 +72,7 @@ int	main(int argc, char **argv)
 
 	mlx_loop(data.mlx);
 
-	return (ft_free_data(data), 0);
+	return (ft_free_data(argc, data), 0);
 }
 
 // gcc -Wall -Werror -Wextra main.c -L./minilibx-linux/ -lmlx_Linux -lX11 -lXext -lm -o cub3d

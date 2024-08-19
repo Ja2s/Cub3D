@@ -6,19 +6,22 @@
 /*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 17:31:52 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/15 13:39:22 by rasamad          ###   ########.fr       */
+/*   Updated: 2024/08/19 18:03:28 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-//Function	: Verifie autour de chaque char dans la map s'il nest pas a cote d'un espace ou d'une fin de map (\0)
-//Param 	: La struct data, l'indice i et j a verifier
-//Return	: ERROR --> -1 || SUCCESS --> 0
+/*	Function	: Verifie autour de chaque char dans la map 
+s'il nest pas a cote d'un espace ou d'une fin de map (\0)
+	Param 	: La struct data, l'indice i et j a verifier
+	Return	: ERROR --> -1 || SUCCESS --> 0*/
 static int	ft_check_around_char(t_data *data, int i, int j)
 {
 	if (i == 0 && (data->m[i][j] != '1' && data->m[i][j] != ' '))
-		return (printf("Error\nOpen map. Forbidden character at i == 0\n"), -1);
+		return (printf("Error\nOpen map\n"), -1);
+	if (i == data->size_y - 1 && (data->m[i][j] != '1' && data->m[i][j] != ' '))
+		return (printf("Error\nOpen map\n", data->size_y), -1);
 	if (j == 0 && (data->m[i][j] != '1' && data->m[i][j] != ' '))
 		return (printf("Error\nOpen map. Forbidden character at j == 0\n"), -1);
 	if (j > 0 && i > 0)
@@ -65,10 +68,11 @@ int	ft_is_map_enclosed_wall(t_data *data)
 
 static void	ft_get_map_size(t_data *data)
 {
-	int i = 0;
-	data->size_x = 0;
-	int len_actual;
+	int	i;
+	int	len_actual;
 
+	i = 0;
+	data->size_x = 0;
 	while (data->m[i])
 	{
 		len_actual = ft_strlen(data->m[i]);
@@ -77,14 +81,13 @@ static void	ft_get_map_size(t_data *data)
 		i++;
 	}
 	data->size_y = i;
-	printf("largeur (x) = %d\tlongueur (y) = %d\n", (int)data->size_x, (int)data->size_y);
 }
 
 static int	ft_alloc_map(t_data *data)
 {
-	int i;
+	int	i;
 
-    i = 0;
+	i = 0;
 	data->map = malloc((data->size_y + 1) * (sizeof(char *)));
 	if (!data->map)
 		return (printf("Error\nMalloc m\n"), -1);
@@ -98,15 +101,15 @@ static int	ft_alloc_map(t_data *data)
 	return (0);
 }
 
-//Function	: Copy la map dans un tableau 2d en
+//Function	: Copy la map dans un tableau 2d avec des espaces
 //Param 	: La struct data
 //Return	: ERROR --> -1 || SUCCESS --> 0
 int	ft_cpy_map(t_data *data)
 {
 	int	i;
-	int j;
+	int	j;
 
-    ft_get_map_size(data);
+	ft_get_map_size(data);
 	if (ft_alloc_map(data) != 0)
 		return (-1);
 	i = 0;

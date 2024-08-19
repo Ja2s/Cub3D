@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:32:15 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/15 15:29:39 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/19 18:09:18 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ int	ft_strlen_cub(char *s, int choice)
 	return (i);
 }
 
-//Function	: Verifie l'extension de la map et initialise les elements de la struct data
-//Param 	: La struct data, et le nom de la map
-//Return	: ERROR --> 1 || SUCCESS --> 0
+/*	Function	: Verifie l'extension de la map et 
+		initialise les elements de la struct data
+	Param 	: La struct data, et le nom de la map
+	Return	: ERROR --> 1 || SUCCESS --> 0*/
 int	ft_check_arg(t_data *data, char *arg_map)
 {
 	int	len;
@@ -91,12 +92,12 @@ void	ft_strcpy(char *dst, const char *src)
 	dst[i] = '\0';
 }
 
-void	ft_free_data(t_data data)
+void	ft_free_data(int ac, t_data data)
 {
-	printf("\nF (R %d\tG %d\tB %d)\n", data.floor.r, data.floor.g, data.floor.b);
-	printf("C (R %d\tG %d\tB %d)\n", data.sky.r, data.sky.g, data.sky.b);
 	int	i;
 
+	if (ac != 2)
+		return ;
 	if (data.textures[0].path)
 		free(data.textures[0].path);
 	if (data.textures[1].path)
@@ -105,10 +106,6 @@ void	ft_free_data(t_data data)
 		free(data.textures[2].path);
 	if (data.textures[3].path)
 		free(data.textures[3].path);
-
-	
-	
-	
 	i = 0;
 	if (!data.m)
 		return ;
@@ -124,8 +121,6 @@ void	ft_free_data(t_data data)
 		return ;
 	while (data.map[i])
 	{
-		printf("%s\n", data.map[i]);
-
 		free(data.map[i]);
 		i++;
 	}

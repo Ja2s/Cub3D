@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:35:09 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/17 13:46:30 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/19 18:07:44 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 static int	ft_loop_fill_map(t_data *data, char *tmp_s1, char *s2)
 {
 	char	*s1;
-	int check = 0;
+	int		check;
 
+	check = 0;
 	while (s2)
 	{
 		if (s2[0] == '\n')
@@ -60,13 +61,15 @@ static int	ft_fill_map(t_data *data)
 		s2 = get_next_line(data->fd);
 	}
 	if (ft_loop_fill_map(data, tmp_s1, s2) != 0)
-		return (-1);;
+		return (-1);
 	return (0);
 }
 
-//Function	: Verifie les char de la map et recupere l'orientaion et la pos du player
-//Param 	: La struct data, la ligne de la map a verifier (s), le nombre de player trouver, et le num de la ligne
-//Return	: ERROR --> -1 || SUCCESS --> 0
+/*	Function	: Verifie les char de la map et 
+		recupere l'orientaion et la pos du player
+	Param 	: La struct data, la ligne de la map a verifier (s), 
+		le nombre de player trouver, et le num de la ligne
+	Return	: ERROR --> -1 || SUCCESS --> 0*/
 int	ft_is_map_char_valid(t_data *data, char *s, int *nb_player, int y)
 {
 	int	i;
@@ -89,7 +92,6 @@ int	ft_is_map_char_valid(t_data *data, char *s, int *nb_player, int y)
 	return (0);
 }
 
-
 //Function	: Recupere et verifie le contenue de la map
 //Param 	: La struct data
 //Return	: ERROR --> -1 || SUCCESS --> 0
@@ -102,18 +104,18 @@ int	ft_get_map(t_data *data)
 	nb_player = 0;
 	if (ft_fill_map(data) != 0)
 		return (-1);
-	reverse_map(data->m);
-	while (data->m[i])
+	if (ft_cpy_map(data) != 0)
+		return (-1);
+	reverse_map(data->map);
+	while (data->map[i])
 	{
-		if (ft_is_map_char_valid(data, data->m[i], &nb_player, i) != 0)
+		if (ft_is_map_char_valid(data, data->map[i], &nb_player, i) != 0)
 			return (-1);
 		i++;
 	}
 	if (nb_player != 1)
 		return (printf("Error\nIncorrect number of players\n"), -1);
 	if (ft_is_map_enclosed_wall(data) != 0)
-		return (-1);
-	if (ft_cpy_map(data) != 0)
 		return (-1);
 	return (0);
 }

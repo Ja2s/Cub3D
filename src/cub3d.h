@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 14:35:46 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/17 15:07:55 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/19 14:47:15 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ int		ft_get_map(t_data *data);
 int		ft_is_map_enclosed_wall(t_data *data);
 int		ft_cpy_map(t_data *data);
 void	raycasting(t_data *data, t_player *player);
-void	ft_free_data(t_data data);
+void	ft_free_data(int ac, t_data data);
 
 
 
@@ -266,7 +266,7 @@ int		ft_get_no(t_data *data, char *gnl);
 int		ft_get_so(t_data *data, char *gnl);
 int		ft_get_we(t_data *data, char *gnl);
 int		ft_get_ea(t_data *data, char *gnl);
-int	is_wall(t_data *data, double x, double y);
-void	ft_free_data(t_data data);
+int		is_wall(t_data *data, double x, double y);
+void	ft_free_data(int ac, t_data data);
 
 #endif
