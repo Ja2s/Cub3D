@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cpy_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 17:31:52 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/19 18:03:28 by rasamad          ###   ########.fr       */
+/*   Updated: 2024/08/19 18:15:51 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	ft_check_around_char(t_data *data, int i, int j)
 	if (i == 0 && (data->m[i][j] != '1' && data->m[i][j] != ' '))
 		return (printf("Error\nOpen map\n"), -1);
 	if (i == data->size_y - 1 && (data->m[i][j] != '1' && data->m[i][j] != ' '))
-		return (printf("Error\nOpen map\n", data->size_y), -1);
+		return (printf("Error\nOpen map\n"), -1);
 	if (j == 0 && (data->m[i][j] != '1' && data->m[i][j] != ' '))
 		return (printf("Error\nOpen map. Forbidden character at j == 0\n"), -1);
 	if (j > 0 && i > 0)

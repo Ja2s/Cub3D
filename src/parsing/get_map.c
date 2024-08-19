@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:35:09 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/19 18:07:44 by rasamad          ###   ########.fr       */
+/*   Updated: 2024/08/19 18:21:34 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	ft_is_map_char_valid(t_data *data, char *s, int *nb_player, int y)
 			data->player.pos_y = (y + 0.5);
 			*nb_player = *nb_player + 1;
 		}
-		if (s[i] != '1' && s[i] != '0' && s[i] != ' ' && s[i] != '\t' && \
+		if (s[i] != '1' && s[i] != '0' && s[i] != ' ' && \
 			s[i] != 'N' && s[i] != 'S' && s[i] != 'W' && s[i] != 'E')
 			return (printf("Error\nInvalid char in map |%c|\n", s[i]), -1);
 		i++;
