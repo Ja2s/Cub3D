@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 00:30:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 00:37:39 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:05:03 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_texture
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		loaded;
 }			t_texture;
 
 typedef struct s_minimap
@@ -124,6 +125,7 @@ typedef struct s_data
 	void			*win;
 	void			*img;
 	char			*addr;
+	int				ok_map;
 	char			**map;
 	char			**m;
 	int				fd;

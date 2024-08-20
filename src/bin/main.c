@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:13:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 00:26:30 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:07:33 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	ft_parser(t_data *data, int ac, char **av)
 		return (-1);
 	if (ft_get_map(data) != 0)
 		return (-1);
+	data->ok_map = 1;
 	return (0);
 }
 
@@ -51,6 +52,7 @@ int	main(int argc, char **argv)
 	t_data	data;
 
 	data.map = NULL;
+	data.ok_map = 0;
 	if (ft_parser(&data, argc, argv) != 0)
 		return (ft_free_data(argc, data), -1);
 	player_init(&data.player);

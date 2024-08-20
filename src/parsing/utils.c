@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:32:15 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/19 18:09:18 by rasamad          ###   ########.fr       */
+/*   Updated: 2024/08/20 15:05:12 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ void	ft_free_data(int ac, t_data data)
 		return ;
 	while (data.m[i])
 	{
-		printf("%s\n", data.m[i]);
 		free(data.m[i]);
 		i++;
 	}
@@ -125,6 +124,21 @@ void	ft_free_data(int ac, t_data data)
 		i++;
 	}
 	free(data.map);
+	if (data.ok_map == 1)
+	{	
+		mlx_destroy_window(data.mlx, data.win);
+		mlx_destroy_image(data.mlx, data.img);
+		if (data.textures[0].loaded == 1)
+			mlx_destroy_image(data.mlx, data.textures[0].img);
+		if (data.textures[1].loaded == 1)
+			mlx_destroy_image(data.mlx, data.textures[1].img);
+		if (data.textures[2].loaded == 1)
+			mlx_destroy_image(data.mlx, data.textures[2].img);
+		if (data.textures[3].loaded == 1)
+			mlx_destroy_image(data.mlx, data.textures[3].img);
+		mlx_destroy_display(data.mlx);
+		free(data.mlx);
+	}
 }
 
 char	*ft_strjoin_cub(char *s1, char *s2)

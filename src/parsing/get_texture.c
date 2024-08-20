@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_texture.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:26:49 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/19 18:08:31 by rasamad          ###   ########.fr       */
+/*   Updated: 2024/08/20 13:35:15 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ int	ft_get_texture(t_data *data)
 	gnl = get_next_line(data->fd);
 	while (gnl && data->nb_param < 6)
 	{
-		printf("%s", gnl);
 		tmp_count = data->nb_param;
 		if (ft_get_no(data, gnl) != 0 || ft_get_so(data, gnl) != 0 \
 		|| ft_get_we(data, gnl) != 0 || ft_get_ea(data, gnl) != 0 \

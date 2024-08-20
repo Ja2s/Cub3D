@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:08:18 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/19 23:58:37 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:48:43 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,26 @@ int	load_textures(t_data *data, t_texture *texture)
 
 int	texture_init(t_data *data)
 {
+	data->textures[0].loaded = 0;
+	data->textures[1].loaded = 0;
+	data->textures[2].loaded = 0;
+	data->textures[3].loaded = 0;
 	if (load_textures(data, &data->textures[0]) == FAILURE)
 		return (FAILURE);
+	else
+		data->textures[0].loaded = 1;
 	if (load_textures(data, &data->textures[1]) == FAILURE)
 		return (FAILURE);
+	else
+		data->textures[1].loaded = 1;
 	if (load_textures(data, &data->textures[2]) == FAILURE)
 		return (FAILURE);
+	else
+		data->textures[2].loaded = 1;
 	if (load_textures(data, &data->textures[3]) == FAILURE)
 		return (FAILURE);
+	else
+		data->textures[3].loaded = 1;
 	return (SUCCESS);
 }
 

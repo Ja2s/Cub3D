@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 23:55:28 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 00:27:18 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 14:52:02 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ int	key_release(int keycode, t_data *data)
 		data->keys.q = 0;
 	else if (keycode == 101)
 		data->keys.e = 0;
-	else if (keycode == 65505)
-		data->player.move_speed = 0.04;
 	return (0);
 }
 
@@ -54,6 +52,10 @@ int	close_window(t_data *data)
 {
 	mlx_destroy_window(data->mlx, data->win);
 	mlx_destroy_image(data->mlx, data->img);
+	mlx_destroy_image(data->mlx, data->textures[0].img);
+	mlx_destroy_image(data->mlx, data->textures[1].img);
+	mlx_destroy_image(data->mlx, data->textures[2].img);
+	mlx_destroy_image(data->mlx, data->textures[3].img);
 	mlx_destroy_display(data->mlx);
 	free(data->mlx);
 	exit(0);
