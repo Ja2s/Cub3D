@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 23:55:28 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 00:16:47 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:34:53 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,6 @@ int	key_release(int keycode, t_data *data)
 
 int	close_window(t_data *data)
 {
-	mlx_destroy_window(data->mlx, data->win);
-	mlx_destroy_image(data->mlx, data->img);
-	mlx_destroy_display(data->mlx);
-	free(data->mlx);
+	ft_free_data(2, *data);
 	exit(0);
 }

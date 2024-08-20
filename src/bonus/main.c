@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:13:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 00:05:28 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:36:05 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
+	data.ok_map = 0;
 	data.map = NULL;
 	if (ft_parser(&data, argc, argv) != 0)
 		return (ft_free_data(argc, data), -1);
