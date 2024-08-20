@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:08:18 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 15:37:50 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:13:01 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	load_textures(t_data *data, t_texture *texture)
 	texture->img = mlx_xpm_file_to_image(data->mlx, \
 	texture->path, &texture->width, &texture->height);
 	if (texture->img == NULL)
-		return (write(2, "ERROR IMG\n", 10), FAILURE);
+		return (write(2, "Error\nbad texture\n", 18), FAILURE);
 	texture->addr = mlx_get_data_addr(texture->img, \
 	&texture->bits_per_pixel, &texture->line_length, &texture->endian);
 	if (texture->addr == NULL)
@@ -67,18 +67,18 @@ int	data_init(t_data *data)
 	data->win = NULL;
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
-		return (write(2, "ERROR MLX\n", 10), FAILURE);
+		return (write(2, "Error\ninit mlx\n", 15), FAILURE);
 	data->win = mlx_new_window(data->mlx, data->width, \
 	data->height, "Cub3D");
 	if (data->win == NULL)
-		return (write(2, "ERROR win\n", 10), FAILURE);
+		return (write(2, "Error\ninit win\n", 15), FAILURE);
 	data->img = mlx_new_image(data->mlx, data->width, data->height);
 	if (data->img == NULL)
-		return (write(2, "ERROR IMG\n", 10), FAILURE);
+		return (write(2, "Error\ninit img\n", 15), FAILURE);
 	data->addr = mlx_get_data_addr(data->img, \
 	&data->bits_per_pixel, &data->line_length, &data->endian);
 	if (data->addr == NULL)
-		return (write(2, "ERROR ADDR\n", 10), FAILURE);
+		return (write(2, "Error\ninit address\n", 19), FAILURE);
 	if (texture_init(data) == FAILURE)
 		return (FAILURE);
 	keys_init(&data->keys);

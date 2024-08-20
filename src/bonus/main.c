@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:13:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 15:44:03 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:20:32 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,14 +100,4 @@ void wall_drawer(t_data *data, t_player *player)
 
 	But : Dessiner le mur sur l'écran.
 	Ce qu'elle fait : Utilise la texture appropriée pour dessiner le mur, en fonction de l'endroit où il a été touché.
-
-void mini_mapper(t_data *data)
-
-	But : Dessiner une mini-carte de l'environnement.
-	Ce qu'elle fait : Affiche une petite carte avec la position des murs et du joueur.
-
-void raycasting(t_data *data, t_player *player)
-
-	But : Lancer des rayons pour dessiner la scène.
-	Ce qu'elle fait : Utilise toutes les fonctions précédentes pour lancer des rayons et dessiner les murs, puis affiche la mini-carte
 */

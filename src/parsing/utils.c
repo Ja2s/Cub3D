@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:32:15 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/20 15:05:12 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:22:15 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,53 +92,57 @@ void	ft_strcpy(char *dst, const char *src)
 	dst[i] = '\0';
 }
 
+void	free_mlx(t_data *data)
+{
+	mlx_destroy_window(data->mlx, data->win);
+	mlx_destroy_image(data->mlx, data->img);
+	if (data->textures[0].loaded == 1)
+		mlx_destroy_image(data->mlx, data->textures[0].img);
+	if (data->textures[1].loaded == 1)
+		mlx_destroy_image(data->mlx, data->textures[1].img);
+	if (data->textures[2].loaded == 1)
+		mlx_destroy_image(data->mlx, data->textures[2].img);
+	if (data->textures[3].loaded == 1)
+		mlx_destroy_image(data->mlx, data->textures[3].img);
+	mlx_destroy_display(data->mlx);
+	free(data->mlx);
+}
+
+void	free_path(t_data *data)
+{
+	if (data->textures[0].path)
+		free(data->textures[0].path);
+	if (data->textures[1].path)
+		free(data->textures[1].path);
+	if (data->textures[2].path)
+		free(data->textures[2].path);
+	if (data->textures[3].path)
+		free(data->textures[3].path);
+}
+
 void	ft_free_data(int ac, t_data data)
 {
 	int	i;
 
 	if (ac != 2)
 		return ;
-	if (data.textures[0].path)
-		free(data.textures[0].path);
-	if (data.textures[1].path)
-		free(data.textures[1].path);
-	if (data.textures[2].path)
-		free(data.textures[2].path);
-	if (data.textures[3].path)
-		free(data.textures[3].path);
+	free_path(&data);
 	i = 0;
-	if (!data.m)
-		return ;
-	while (data.m[i])
+	if (data.m)
 	{
-		free(data.m[i]);
-		i++;
+		while (data.m[i])
+			free(data.m[i++]);
+		free(data.m);
 	}
-	free(data.m);
 	i = 0;
-	if (!data.map)
-		return ;
-	while (data.map[i])
+	if (data.map)
 	{
-		free(data.map[i]);
-		i++;
+		while (data.map[i])
+			free(data.map[i++]);
+		free(data.map);
 	}
-	free(data.map);
-	if (data.ok_map == 1)
-	{	
-		mlx_destroy_window(data.mlx, data.win);
-		mlx_destroy_image(data.mlx, data.img);
-		if (data.textures[0].loaded == 1)
-			mlx_destroy_image(data.mlx, data.textures[0].img);
-		if (data.textures[1].loaded == 1)
-			mlx_destroy_image(data.mlx, data.textures[1].img);
-		if (data.textures[2].loaded == 1)
-			mlx_destroy_image(data.mlx, data.textures[2].img);
-		if (data.textures[3].loaded == 1)
-			mlx_destroy_image(data.mlx, data.textures[3].img);
-		mlx_destroy_display(data.mlx);
-		free(data.mlx);
-	}
+	if (data.ok_map == 1 && data.ok_mlx == 1)
+		free_mlx(&data);
 }
 
 char	*ft_strjoin_cub(char *s1, char *s2)

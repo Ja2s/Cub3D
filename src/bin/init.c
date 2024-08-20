@@ -6,11 +6,19 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:08:18 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 14:48:43 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:22:20 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+void	init_ok(t_data *data)
+{
+	data->ok_map = 0;
+	data->ok_img = 0;
+	data->ok_mlx = 0;
+	data->ok_win = 0;
+}
 
 void	keys_init(t_keys *keys)
 {
@@ -27,7 +35,7 @@ int	load_textures(t_data *data, t_texture *texture)
 	texture->img = mlx_xpm_file_to_image(data->mlx, \
 	texture->path, &texture->width, &texture->height);
 	if (texture->img == NULL)
-		return (write(2, "ERROR IMG\n", 10), FAILURE);
+		return (ft_perror("Error\nbad texture"));
 	texture->addr = mlx_get_data_addr(texture->img, \
 	&texture->bits_per_pixel, &texture->line_length, &texture->endian);
 	if (texture->addr == NULL)
@@ -67,18 +75,21 @@ int	data_init(t_data *data)
 	data->win = NULL;
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
-		return (write(2, "ERROR MLX\n", 10), FAILURE);
+		return (ft_perror("Error\ninit mlx"));
+	data->ok_mlx = 1;
 	data->win = mlx_new_window(data->mlx, data->width, \
 	data->height, "Cub3D");
 	if (data->win == NULL)
-		return (write(2, "ERROR win\n", 10), FAILURE);
+		return (ft_perror("Error\ninit win"));
+	data->ok_win = 1;
 	data->img = mlx_new_image(data->mlx, data->width, data->height);
 	if (data->img == NULL)
-		return (write(2, "ERROR IMG\n", 10), FAILURE);
+		return (ft_perror("Error\ninit img"));
+	data->ok_img = 1;
 	data->addr = mlx_get_data_addr(data->img, \
 	&data->bits_per_pixel, &data->line_length, &data->endian);
 	if (data->addr == NULL)
-		return (write(2, "ERROR ADDR\n", 10), FAILURE);
+		return (ft_perror("Error\ninit address"));
 	if (texture_init(data) == FAILURE)
 		return (FAILURE);
 	keys_init(&data->keys);

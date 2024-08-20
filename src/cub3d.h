@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 00:30:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 15:05:03 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:17:10 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,9 @@ typedef struct s_data
 	void			*win;
 	void			*img;
 	char			*addr;
+	int				ok_mlx;
+	int				ok_img;
+	int				ok_win;
 	int				ok_map;
 	char			**map;
 	char			**m;
@@ -147,6 +150,8 @@ typedef struct s_data
 	t_texture		textures[4];
 }					t_data;
 
+int				ft_perror(char *error);
+void			init_ok(t_data *data);
 void			start_and_dir(t_data *data, t_player *player);
 void			send_ray_helper(t_data *data, t_player *player);
 void			hit_checker(t_data *data);
