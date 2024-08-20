@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:13:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 15:36:05 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 15:44:03 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	ft_parser(t_data *data, int ac, char **av)
 		return (-1);
 	if (ft_get_map(data) != 0)
 		return (-1);
+	data->ok_map = 1;
 	return (0);
 }
 
