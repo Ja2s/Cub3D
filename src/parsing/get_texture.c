@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_texture.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:26:49 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/20 13:35:15 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:59:31 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	ft_get_no(t_data *data, char *gnl)
 	int	i;
 
 	i = 2;
-	if (gnl[0] == 'N' && gnl[1] == 'O' && (gnl[2] == ' ' || gnl[2] == '\t'))
+	if (gnl[0] == 'N' && gnl[1] == 'O' && gnl[2] == ' ')
 	{
-		while (gnl[i] == ' ' || gnl[i] == '\t')
+		while (gnl[i] == ' ')
 			i++;
 		if (gnl[i] == '\n')
 			return (printf("Error\nTexture north empty\n"), -2);
@@ -38,9 +38,9 @@ int	ft_get_so(t_data *data, char *gnl)
 	int	i;
 
 	i = 2;
-	if (gnl[0] == 'S' && gnl[1] == 'O' && (gnl[2] == ' ' || gnl[2] == '\t'))
+	if (gnl[0] == 'S' && gnl[1] == 'O' && gnl[2] == ' ')
 	{
-		while (gnl[i] == ' ' || gnl[i] == '\t')
+		while (gnl[i] == ' ')
 			i++;
 		if (gnl[i] == '\n')
 			return (printf("Error\nTexture south empty\n"), -2);
@@ -59,9 +59,9 @@ int	ft_get_we(t_data *data, char *gnl)
 	int	i;
 
 	i = 2;
-	if (gnl[0] == 'W' && gnl[1] == 'E' && (gnl[2] == ' ' || gnl[2] == '\t'))
+	if (gnl[0] == 'W' && gnl[1] == 'E' && gnl[2] == ' ')
 	{
-		while (gnl[i] == ' ' || gnl[i] == '\t')
+		while (gnl[i] == ' ')
 			i++;
 		if (gnl[i] == '\n')
 			return (printf("Error\nTexture west empty\n"), -2);
@@ -80,9 +80,9 @@ int	ft_get_ea(t_data *data, char *gnl)
 	int	i;
 
 	i = 2;
-	if (gnl[0] == 'E' && gnl[1] == 'A' && (gnl[2] == ' ' || gnl[2] == '\t'))
+	if (gnl[0] == 'E' && gnl[1] == 'A' && gnl[2] == ' ')
 	{
-		while (gnl[i] == ' ' || gnl[i] == '\t')
+		while (gnl[i] == ' ')
 			i++;
 		if (gnl[i] == '\n')
 			return (printf("Error\nTexture east empty\n"), -2);
@@ -116,5 +116,7 @@ int	ft_get_texture(t_data *data)
 		free(gnl);
 		gnl = get_next_line(data->fd);
 	}
+	if (gnl && gnl[0] != '\n')
+		return (printf("Error\nInvalid char in .cub\n"), free(gnl), -1);
 	return (free(gnl), data->nb_param);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:08:18 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 18:22:20 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:29:05 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,21 @@ int	data_init(t_data *data)
 	data->win = NULL;
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
-		return (ft_perror("Error\ninit mlx"));
+		return (ft_perror("init mlx"));
 	data->ok_mlx = 1;
 	data->win = mlx_new_window(data->mlx, data->width, \
 	data->height, "Cub3D");
 	if (data->win == NULL)
-		return (ft_perror("Error\ninit win"));
+		return (ft_perror("init win"));
 	data->ok_win = 1;
 	data->img = mlx_new_image(data->mlx, data->width, data->height);
 	if (data->img == NULL)
-		return (ft_perror("Error\ninit img"));
+		return (ft_perror("init img"));
 	data->ok_img = 1;
 	data->addr = mlx_get_data_addr(data->img, \
 	&data->bits_per_pixel, &data->line_length, &data->endian);
 	if (data->addr == NULL)
-		return (ft_perror("Error\ninit address"));
+		return (ft_perror("init address"));
 	if (texture_init(data) == FAILURE)
 		return (FAILURE);
 	keys_init(&data->keys);

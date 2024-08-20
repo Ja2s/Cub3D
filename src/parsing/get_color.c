@@ -6,11 +6,37 @@
 /*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:14:48 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/19 18:04:14 by rasamad          ###   ########.fr       */
+/*   Updated: 2024/08/20 18:11:53 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+static int	ft_get_blue(t_data *data, char *gnl, int i, char choice)
+{
+	while (gnl[i] >= '0' && gnl[i] <= '9')
+		i++;
+	while (gnl[i] == ' ')
+		i++;
+	if (gnl[i] != ',')
+		return (printf("Error\nC invaLid format\n"), -1);
+	i++;
+	while (gnl[i] == ' ')
+		i++;
+	if (!(gnl[i] >= '0' && gnl[i] <= '9'))
+		return (printf("Error\nC invaliD format\n"), -1);
+	if (choice == 'c')
+		data->sky.b = ft_atoi(gnl + i);
+	else if (choice == 'f')
+		data->floor.b = ft_atoi(gnl + i);
+	while (gnl[i] >= '0' && gnl[i] <= '9')
+		i++;
+	while (gnl[i] == ' ')
+		i++;
+	if (gnl[i] != '\n')
+		return (printf("Error\nC invalid FormaT\n"), -1);
+	return (0);
+}
 
 int	ft_fill_color_c(t_data *data, char *gnl, int i)
 {
@@ -30,24 +56,8 @@ int	ft_fill_color_c(t_data *data, char *gnl, int i)
 	if (!(gnl[i] >= '0' && gnl[i] <= '9'))
 		return (printf("Error\nC invAlid format\n"), -1);
 	data->sky.g = ft_atoi(gnl + i);
-	while (gnl[i] >= '0' && gnl[i] <= '9')
-		i++;
-	while (gnl[i] == ' ')
-		i++;
-	if (gnl[i] != ',')
-		return (printf("Error\nC invaLid format\n"), -1);
-	i++;
-	while (gnl[i] == ' ')
-		i++;
-	if (!(gnl[i] >= '0' && gnl[i] <= '9'))
-		return (printf("Error\nC invaliD format\n"), -1);
-	data->sky.b = ft_atoi(gnl + i);
-	while (gnl[i] >= '0' && gnl[i] <= '9')
-		i++;
-	while (gnl[i] == ' ')
-		i++;
-	if (gnl[i] != '\n')
-		return (printf("Error\nC invalid FormaT\n"), -1);
+	if (ft_get_blue(data, gnl, i, 'c') != 0)
+		return (-1);
 	return (0);
 }
 
@@ -69,24 +79,8 @@ int	ft_fill_color_f(t_data *data, char *gnl, int i)
 	if (!(gnl[i] >= '0' && gnl[i] <= '9'))
 		return (printf("Error\nF invAlid format\n"), -1);
 	data->floor.g = ft_atoi(gnl + i);
-	while (gnl[i] >= '0' && gnl[i] <= '9')
-		i++;
-	while (gnl[i] == ' ')
-		i++;
-	if (gnl[i] != ',')
-		return (printf("Error\nF invaLid format\n"), -1);
-	i++;
-	while (gnl[i] == ' ')
-		i++;
-	if (!(gnl[i] >= '0' && gnl[i] <= '9'))
-		return (printf("Error\nF invaliD format\n"), -1);
-	data->floor.b = ft_atoi(gnl + i);
-	while (gnl[i] >= '0' && gnl[i] <= '9')
-		i++;
-	while (gnl[i] == ' ')
-		i++;
-	if (gnl[i] != '\n')
-		return (printf("Error\nF invalid FormaT\n"), -1);
+	if (ft_get_blue(data, gnl, i, 'f') != 0)
+		return (-1);
 	return (0);
 }
 
@@ -98,11 +92,11 @@ int	ft_get_color_c(t_data *data, char *gnl)
 	int	i;
 
 	i = 1;
-	if (gnl[0] == 'C' && (gnl[1] == ' ' || gnl[1] == '\t'))
+	if (gnl[0] == 'C' && gnl[1] == ' ')
 	{
 		if (data->sky.check)
 			return (printf("Error\ndouble C\n"), -1);
-		while (gnl[i] == ' ' || gnl[i] == '\t')
+		while (gnl[i] == ' ')
 			i++;
 		if (ft_fill_color_c(data, gnl, i) != 0)
 			return (-1);
@@ -122,11 +116,11 @@ int	ft_get_color_f(t_data *data, char *gnl)
 	int	i;
 
 	i = 1;
-	if (gnl[0] == 'F' && (gnl[1] == ' ' || gnl[1] == '\t'))
+	if (gnl[0] == 'F' && gnl[1] == ' ')
 	{
 		if (data->floor.check)
 			return (printf("Error\ndouble F\n"), -1);
-		while (gnl[i] == ' ' || gnl[i] == '\t')
+		while (gnl[i] == ' ')
 			i++;
 		if (ft_fill_color_f(data, gnl, i) != 0)
 			return (-1);

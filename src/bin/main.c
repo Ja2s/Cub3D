@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:13:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 18:17:56 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:28:29 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 	//Return	: ERROR --> 1 || SUCCESS --> 0 */
 int	ft_perror(char *error)
 {
+	write(2, "Error\n", 6);
 	write(2, error, ft_strlen(error));
 	write(2, "\n", 1);
 	return (FAILURE);

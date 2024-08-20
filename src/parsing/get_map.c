@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:35:09 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/19 18:21:34 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:03:04 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,13 @@ static int	ft_fill_map(t_data *data)
 		return (-1);
 	tmp_s1[0] = '\0';
 	s2 = get_next_line(data->fd);
-	if (!s2)
-		return (printf("Error\nEmpty map\n"), free(tmp_s1), -1);
-	while (s2[0] == '\n')
+	while (s2 && s2[0] == '\n')
 	{
 		free(s2);
 		s2 = get_next_line(data->fd);
 	}
+	if (!s2)
+		return (printf("Error\nEmpty map\n"), free(tmp_s1), -1);
 	if (ft_loop_fill_map(data, tmp_s1, s2) != 0)
 		return (-1);
 	return (0);
