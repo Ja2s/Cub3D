@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:08:18 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/21 16:30:55 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:55:34 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int	data_init(t_data *data)
 {
 	data->width = 1800;
 	data->height = 1000;
-	data->win = NULL;
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
 		return (ft_perror("init mlx failed"));

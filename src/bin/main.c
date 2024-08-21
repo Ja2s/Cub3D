@@ -6,15 +6,12 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:13:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/21 16:33:26 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:17:52 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-/* 	//Function	: Lance le parsing du programme
-	//Param 	: La struct data, le nombre et le contenue des argument du main
-	//Return	: ERROR --> 1 || SUCCESS --> 0 */
 int	ft_perror(char *error)
 {
 	write(2, "Error\n", 6);
@@ -22,7 +19,7 @@ int	ft_perror(char *error)
 	write(2, "\n", 1);
 	return (FAILURE);
 }
-	
+
 int	ft_parser(t_data *data, int ac, char **av)
 {
 	if (ac != 2)

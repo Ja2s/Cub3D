@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 00:30:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 18:17:10 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:55:13 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,54 +220,4 @@ int				ft_get_ea(t_data *data, char *gnl);
 int				is_wall(t_data *data, double x, double y);
 void			ft_free_data(int ac, t_data data);
 
-	// map_x et map_y :
-	//	 La position du joueur en termes de case (cellule) sur la carte de jeu. Par exemple, si le joueur est dans la case (2, 3) de la grille.
-
-	// side_dist_x et side_dist_y :
-	//	 Les distances entre la position du joueur et le premier bord (ligne) vertical ou horizontal qu'un rayon va toucher.
-
-	// delta_dist_x et delta_dist_y :
-	//	 La distance que le rayon parcourt entre chaque ligne verticale (delta_dist_x) et chaque ligne horizontale (delta_dist_y) de la grille.
-
-	// hit :
-	//	 Un indicateur qui devient 1 lorsque le rayon touche un mur.
-
-	// side :
-	//	 Indique si le mur touché est vertical (0) ou horizontal (1).
-
-	// camera_x :
-	//	 La position horizontale du rayon dans le plan de la caméra, utilisée pour calculer la direction du rayon.
-
-	// ray_dir_x et ray_dir_y :
-	//	 La direction du rayon en termes de coordonnées x et y. Par exemple, un rayon allant vers le nord-est aura des ray_dir_x et ray_dir_y positifs ou négatifs.
-
-	// x et y :
-	//	 Les coordonnées en pixels sur l'écran pour dessiner les murs.
-
-	// tex_num :
-	//	 Le numéro de la texture à utiliser pour le mur touché.
-
-	// tex_x :
-
-	// La position horizontale dans la texture du mur pour un rayon donné.
-
-	// draw_end :
-
-	// La position y sur l'écran où le mur cesse d'être dessiné.
-
-	// line_height :
-
-	// La hauteur du mur en pixels à dessiner sur l'écran.
-
-	// draw_start :
-
-	// La position y sur l'écran où le mur commence à être dessiné.
-
-	// wall_x :
-
-	// La position exacte où le rayon touche le mur, en termes de coordonnées x dans le mur.
-
-	// perp_wall_dist :
-
-	// La distance perpendiculaire entre le joueur et le mur touché par le rayon, utilisée pour corriger l'effet "fisheye".
 #endif

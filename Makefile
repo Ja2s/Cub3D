@@ -25,7 +25,7 @@ LIBFT_DIR = libft
 
 # Fichiers sources
 SRC = 			$(BIN_DIR)main.c $(BIN_DIR)action_key.c $(BIN_DIR)init.c $(BIN_DIR)utils.c \
-				$(BIN_DIR)player_init.c $(BIN_DIR)player_hitbox.c $(BIN_DIR)player_move.c \
+				$(BIN_DIR)player_init.c $(BIN_DIR)player_hitbox.c $(BIN_DIR)player_move.c $(BIN_DIR)player_move_helper.c \
 				$(GNL_DIR)/get_next_line.c $(GNL_DIR)/get_next_line_utils.c \
 				$(PARSE_DIR)get_color.c $(PARSE_DIR)get_texture.c $(PARSE_DIR)utils.c $(PARSE_DIR)get_map.c $(PARSE_DIR)cpy_map.c 
 
