@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 10:43:31 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 00:08:04 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:34:15 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,38 @@ void	rotate_right(t_data *data)
 	cos(-0.05) - data->player.plane_y * sin(-0.05);
 	data->player.plane_y = old_plane_x * \
 	sin(-0.05) + data->player.plane_y * cos(-0.05);
+}
+
+void	move_left(t_data *data)
+{
+	double	perp_x;
+	double	perp_y;
+	double	new_pos_x;
+	double	new_pos_y;
+
+	perp_x = -data->player.dir_y;
+	perp_y = data->player.dir_x;
+	new_pos_x = data->player.pos_x + perp_x * (data->player.move_speed / 2);
+	new_pos_y = data->player.pos_y + perp_y * (data->player.move_speed / 2);
+	if (is_wall(data, new_pos_x, data->player.pos_y) == 0)
+		data->player.pos_x = new_pos_x;
+	if (is_wall(data, data->player.pos_x, new_pos_y) == 0)
+		data->player.pos_y = new_pos_y;
+}
+
+void	move_right(t_data *data)
+{
+	double	perp_x;
+	double	perp_y;
+	double	new_pos_x;
+	double	new_pos_y;
+
+	perp_x = data->player.dir_y;
+	perp_y = -data->player.dir_x;
+	new_pos_x = data->player.pos_x + perp_x * (data->player.move_speed / 2);
+	new_pos_y = data->player.pos_y + perp_y * (data->player.move_speed / 2);
+	if (is_wall(data, new_pos_x, data->player.pos_y) == 0)
+		data->player.pos_x = new_pos_x;
+	if (is_wall(data, data->player.pos_x, new_pos_y) == 0)
+		data->player.pos_y = new_pos_y;
 }

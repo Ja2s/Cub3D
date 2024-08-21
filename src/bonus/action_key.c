@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 23:55:28 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 15:34:53 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:30:11 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	key_press(int keycode, t_data *data)
 		data->keys.s = 1;
 	else if (keycode == 100)
 		data->keys.d = 1;
-	else if (keycode == 113)
+	else if (keycode == 65361)
 		data->keys.q = 1;
-	else if (keycode == 101)
+	else if (keycode == 65363)
 		data->keys.e = 1;
 	else if (keycode == 65505)
 		data->player.move_speed = 0.065;
@@ -43,9 +43,9 @@ int	key_release(int keycode, t_data *data)
 		data->keys.s = 0;
 	else if (keycode == 100)
 		data->keys.d = 0;
-	else if (keycode == 113)
+	else if (keycode == 65361)
 		data->keys.q = 0;
-	else if (keycode == 101)
+	else if (keycode == 65363)
 		data->keys.e = 0;
 	else if (keycode == 65505)
 		data->player.move_speed = 0.04;

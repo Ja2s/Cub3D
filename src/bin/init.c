@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:08:18 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/21 14:46:06 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:30:55 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	load_textures(t_data *data, t_texture *texture)
 	texture->img = mlx_xpm_file_to_image(data->mlx, \
 	texture->path, &texture->width, &texture->height);
 	if (texture->img == NULL)
-		return (ft_perror("Error\nbad texture"));
+		return (ft_perror("bad texture"));
 	texture->addr = mlx_get_data_addr(texture->img, \
 	&texture->bits_per_pixel, &texture->line_length, &texture->endian);
 	if (texture->addr == NULL)

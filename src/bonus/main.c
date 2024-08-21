@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:13:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/21 14:40:04 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:28:32 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,15 @@ int	game_loop(t_data *data)
 	if (data->keys.w)
 		fordward(data);
 	if (data->keys.a)
-		rotate_left(data);
+		move_left(data);
 	if (data->keys.s)
 		move_back(data);
 	if (data->keys.d)
-		rotate_right(data);
-	if (data->keys.q)
-		move_left(data);
-	if (data->keys.e)
 		move_right(data);
+	if (data->keys.q)
+		rotate_left(data);
+	if (data->keys.e)
+		rotate_right(data);
 	raycasting(data, &data->player);
 	mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	return (0);
