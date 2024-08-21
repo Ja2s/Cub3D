@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:13:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 18:28:29 by rasamad          ###   ########.fr       */
+/*   Updated: 2024/08/21 14:46:27 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_perror(char *error)
 int	ft_parser(t_data *data, int ac, char **av)
 {
 	if (ac != 2)
-		return (printf("Error: bad number of arguments\n"), -1);
+		return (ft_perror);
 	if (ft_check_arg(data, av[1]) != 0)
 		return (printf("Error: the map file is not .cub\n"), -1);
 	data->fd = open(av[1], O_RDONLY);

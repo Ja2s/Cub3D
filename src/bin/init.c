@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 11:08:18 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 18:29:05 by rasamad          ###   ########.fr       */
+/*   Updated: 2024/08/21 14:46:06 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 void	init_ok(t_data *data)
 {
+	data->textures[0].loaded = 0;
+	data->textures[1].loaded = 0;
+	data->textures[2].loaded = 0;
+	data->textures[3].loaded = 0;
 	data->ok_map = 0;
 	data->ok_img = 0;
 	data->ok_mlx = 0;
@@ -45,10 +49,6 @@ int	load_textures(t_data *data, t_texture *texture)
 
 int	texture_init(t_data *data)
 {
-	data->textures[0].loaded = 0;
-	data->textures[1].loaded = 0;
-	data->textures[2].loaded = 0;
-	data->textures[3].loaded = 0;
 	if (load_textures(data, &data->textures[0]) == FAILURE)
 		return (FAILURE);
 	else
@@ -75,21 +75,21 @@ int	data_init(t_data *data)
 	data->win = NULL;
 	data->mlx = mlx_init();
 	if (data->mlx == NULL)
-		return (ft_perror("init mlx"));
+		return (ft_perror("init mlx failed"));
 	data->ok_mlx = 1;
 	data->win = mlx_new_window(data->mlx, data->width, \
 	data->height, "Cub3D");
 	if (data->win == NULL)
-		return (ft_perror("init win"));
+		return (ft_perror("init win failed"));
 	data->ok_win = 1;
 	data->img = mlx_new_image(data->mlx, data->width, data->height);
 	if (data->img == NULL)
-		return (ft_perror("init img"));
+		return (ft_perror("init img failed"));
 	data->ok_img = 1;
 	data->addr = mlx_get_data_addr(data->img, \
 	&data->bits_per_pixel, &data->line_length, &data->endian);
 	if (data->addr == NULL)
-		return (ft_perror("init address"));
+		return (ft_perror("init address failed"));
 	if (texture_init(data) == FAILURE)
 		return (FAILURE);
 	keys_init(&data->keys);

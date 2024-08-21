@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:32:15 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/20 18:22:15 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/21 14:33:09 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,10 @@ void	ft_strcpy(char *dst, const char *src)
 
 void	free_mlx(t_data *data)
 {
-	mlx_destroy_window(data->mlx, data->win);
-	mlx_destroy_image(data->mlx, data->img);
+	if (data->ok_win == 1)
+		mlx_destroy_window(data->mlx, data->win);
+	if (data->ok_img == 1)
+		mlx_destroy_image(data->mlx, data->img);
 	if (data->textures[0].loaded == 1)
 		mlx_destroy_image(data->mlx, data->textures[0].img);
 	if (data->textures[1].loaded == 1)

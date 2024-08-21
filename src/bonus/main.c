@@ -6,7 +6,7 @@
 /*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:13:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/20 17:20:32 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/21 14:40:04 by jgavairo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,15 @@
 /* 	//Function	: Lance le parsing du programme
 	//Param 	: La struct data, le nombre et le contenue des argument du main
 	//Return	: ERROR --> 1 || SUCCESS --> 0 */
+
+int	ft_perror(char *error)
+{
+	write(2, "Error\n", 6);
+	write(2, error, ft_strlen(error));
+	write(2, "\n", 1);
+	return (FAILURE);
+}
+	
 int	ft_parser(t_data *data, int ac, char **av)
 {
 	if (ac != 2)
@@ -55,8 +64,8 @@ int	main(int argc, char **argv)
 {
 	t_data	data;
 
-	data.ok_map = 0;
 	data.map = NULL;
+	init_ok(&data);
 	if (ft_parser(&data, argc, argv) != 0)
 		return (ft_free_data(argc, data), -1);
 	player_init(&data.player);

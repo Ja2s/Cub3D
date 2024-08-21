@@ -51,7 +51,7 @@ bonus: $(NAME_BONUS)
 $(NAME_BONUS): $(OBJ_BONUS)
 	@make -C $(LIBFT_DIR) > /dev/null 2>&1
 	@make -C $(MLX_DIR) > /dev/null 2>&1
-	@$(CC) $(OBJ_BONUS) $(LIBMLX) $(LIBFT) -o $(NAME_BONUS) 
+	@$(CC) $(OBJ_BONUS) $(LIBMLX) $(LIBFT) -o $(NAME_BONUS) > /dev/null 2>&1
 	@printf "\033[38;5;220m\033[1A\033[KExecutable $(NAME_BONUS) created\n\033[0m"
 
 # Compilation des fichiers objets
