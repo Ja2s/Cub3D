@@ -37,7 +37,7 @@ SRC_BONUS = 	$(SRC) $(BONUS_DIR)minimap.c $(BONUS_DIR)raycast/raycasting.c $(BON
 HEADERS = $(INC_DIR)/cub3d.h $(PARSE_DIR)parsing.h $(GNL_DIR)get_next_line.h
 
 # Fichiers objets
-OBJ = $(SRC:.c=.o)
+OBJ = $(SRC_MANDATORY:.c=.o)
 
 OBJ_BONUS = $(SRC_BONUS:.c=.o)
 
