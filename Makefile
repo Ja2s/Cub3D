@@ -34,7 +34,7 @@ SRC_MANDATORY = $(SRC) $(RAY_DIR)raycasting.c $(RAY_DIR)raycasting_utils.c
 SRC_BONUS = 	$(SRC) $(BONUS_DIR)minimap.c $(BONUS_DIR)raycast/raycasting.c $(BONUS_DIR)raycast/raycasting_utils.c
 
 # Fichiers headers
-HEADERS = $(INC_DIR)/cub3d.h $(PARSE_DIR)parsing.h $(GNL_DIR)get_next_line.h
+HEADERS = $(INC_DIR)/cub3d.h $(GNL_DIR)get_next_line.h
 
 # Fichiers objets
 OBJ = $(SRC_MANDATORY:.c=.o)
