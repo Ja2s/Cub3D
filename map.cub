@@ -1,9 +1,11 @@
-F  107,142,35  
-C     135,   206,250 
 NO          textures/text1.xpm
-SO ./textures/text1.xpm
-EA     ./textures/text2.xpm
-WE   ./textures/text2.xpm
+SO ./textures/text2.xpm
+EA     ./textures/text3.xpm
+WE   ./textures/text4.xpm         
+
+F  255,142,35  
+C     135,   206,250 
+
 
 111111111111111111111
 100000010000010000001

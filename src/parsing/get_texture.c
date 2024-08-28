@@ -6,13 +6,13 @@
 /*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 17:26:49 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/20 17:59:31 by rasamad          ###   ########.fr       */
+/*   Updated: 2024/08/26 14:09:58 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	ft_get_no(t_data *data, char *gnl)
+static int	ft_get_no(t_data *data, char *gnl)
 {
 	int	i;
 
@@ -22,18 +22,18 @@ int	ft_get_no(t_data *data, char *gnl)
 		while (gnl[i] == ' ')
 			i++;
 		if (gnl[i] == '\n')
-			return (printf("Error\nTexture north empty\n"), -2);
+			return (ft_perror("texture north empty"), -2);
 		if (data->textures[0].path)
-			return (printf("Error\nDoublon texture\n"), -2);
+			return (ft_perror("doublon texture"), -2);
 		data->textures[0].path = ft_strdup_cub(gnl + i, 2);
 		if (!data->textures[0].path)
-			return (printf("Error\nMalloc failed\n"), -1);
+			return (ft_perror("malloc failed"), -1);
 		data->nb_param = data->nb_param + 1;
 	}
 	return (0);
 }
 
-int	ft_get_so(t_data *data, char *gnl)
+static int	ft_get_so(t_data *data, char *gnl)
 {
 	int	i;
 
@@ -43,18 +43,18 @@ int	ft_get_so(t_data *data, char *gnl)
 		while (gnl[i] == ' ')
 			i++;
 		if (gnl[i] == '\n')
-			return (printf("Error\nTexture south empty\n"), -2);
+			return (ft_perror("texture south empty"), -2);
 		if (data->textures[1].path)
-			return (printf("Error\nDoublon texture\n"), -2);
+			return (ft_perror("doublon texture"), -2);
 		data->textures[1].path = ft_strdup_cub(gnl + i, 2);
 		if (!data->textures[1].path)
-			return (printf("Error\nMalloc failed\n"), -1);
+			return (ft_perror("malloc failed"), -1);
 		data->nb_param = data->nb_param + 1;
 	}
 	return (0);
 }
 
-int	ft_get_we(t_data *data, char *gnl)
+static int	ft_get_we(t_data *data, char *gnl)
 {
 	int	i;
 
@@ -64,18 +64,18 @@ int	ft_get_we(t_data *data, char *gnl)
 		while (gnl[i] == ' ')
 			i++;
 		if (gnl[i] == '\n')
-			return (printf("Error\nTexture west empty\n"), -2);
+			return (ft_perror("texture weast empty"), -2);
 		if (data->textures[2].path)
-			return (printf("Error\nDoublon texture\n"), -2);
+			return (ft_perror("doublon texture"), -2);
 		data->textures[2].path = ft_strdup_cub(gnl + i, 2);
 		if (!data->textures[2].path)
-			return (printf("Error\nMalloc failed\n"), -1);
+			return (ft_perror("malloc failed"), -1);
 		data->nb_param = data->nb_param + 1;
 	}
 	return (0);
 }
 
-int	ft_get_ea(t_data *data, char *gnl)
+static int	ft_get_ea(t_data *data, char *gnl)
 {
 	int	i;
 
@@ -85,18 +85,17 @@ int	ft_get_ea(t_data *data, char *gnl)
 		while (gnl[i] == ' ')
 			i++;
 		if (gnl[i] == '\n')
-			return (printf("Error\nTexture east empty\n"), -2);
+			return (ft_perror("texture east empty"), -2);
 		if (data->textures[3].path)
-			return (printf("Error\nDoublon texture\n"), -2);
+			return (ft_perror("bad texture"), -2);
 		data->textures[3].path = ft_strdup_cub(gnl + i, 2);
 		if (!data->textures[3].path)
-			return (printf("Error\nMalloc failed\n"), -1);
+			return (ft_perror("malloc failed"), -1);
 		data->nb_param = data->nb_param + 1;
 	}
 	return (0);
 }
 
-//return data->nb_param of texture or -1 for malloc error strdup or doublon
 int	ft_get_texture(t_data *data)
 {
 	char	*gnl;
@@ -112,11 +111,14 @@ int	ft_get_texture(t_data *data)
 		|| ft_get_color_f(data, gnl) == -1 || ft_get_color_c(data, gnl) == -1)
 			return (free(gnl), -1);
 		if (tmp_count == data->nb_param && gnl[0] != '\n')
-			return (printf("Error\nInvalid char in .cub\n"), free(gnl), -1);
+			return (ft_perror("invalid char in .cub"), free(gnl), -1);
 		free(gnl);
-		gnl = get_next_line(data->fd);
+		if (data->nb_param < 6)
+			gnl = get_next_line(data->fd);
 	}
-	if (gnl && gnl[0] != '\n')
-		return (printf("Error\nInvalid char in .cub\n"), free(gnl), -1);
-	return (free(gnl), data->nb_param);
+	if (!gnl)
+		return (ft_perror("missing texture"), free(gnl), -1);
+	if (ft_check_same_texture(data) != 0)
+		return (-1);
+	return (data->nb_param);
 }

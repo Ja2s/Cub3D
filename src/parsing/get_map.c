@@ -6,7 +6,7 @@
 /*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 17:35:09 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/20 18:03:04 by rasamad          ###   ########.fr       */
+/*   Updated: 2024/08/21 18:20:16 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@ static int	ft_loop_fill_map(t_data *data, char *tmp_s1, char *s2)
 		else
 		{
 			if (check)
-				return (printf("Error\nMap discontinuous\n"), free(s2), free(tmp_s1), -1);
+				return (ft_perror("map discontinuous"), \
+				free(s2), free(tmp_s1), -1);
 			s1 = ft_strjoin_cub(tmp_s1, s2);
 			if (!s1)
-				return (printf("Error\nMap empty\n"), free(tmp_s1), free(s2), -1);
+				return (ft_perror("empty map"), free(tmp_s1), free(s2), -1);
 			free(tmp_s1);
 			tmp_s1 = s1;
 		}
@@ -40,8 +41,8 @@ static int	ft_loop_fill_map(t_data *data, char *tmp_s1, char *s2)
 	return (0);
 }
 
-//Function	: Remplie la map du .cub dans un tab 2d de char
-//Param 	: La struct data contenant map et le fd du .cub
+//Function	: Fill the map into a 2D char table
+//Param 	: The struct t_data and the fd of .cub
 //Return	: ERROR --> 1 || SUCCESS --> 0
 static int	ft_fill_map(t_data *data)
 {
@@ -59,16 +60,16 @@ static int	ft_fill_map(t_data *data)
 		s2 = get_next_line(data->fd);
 	}
 	if (!s2)
-		return (printf("Error\nEmpty map\n"), free(tmp_s1), -1);
+		return (ft_perror("empty map"), free(tmp_s1), -1);
 	if (ft_loop_fill_map(data, tmp_s1, s2) != 0)
 		return (-1);
 	return (0);
 }
 
-/*	Function	: Verifie les char de la map et 
-		recupere l'orientaion et la pos du player
-	Param 	: La struct data, la ligne de la map a verifier (s), 
-		le nombre de player trouver, et le num de la ligne
+/*	Function	: Check the map's char and get 
+				the player's orientation and position
+	Param 	: The struct t_data, the line of the map to check, 
+		the number of players found and the line number
 	Return	: ERROR --> -1 || SUCCESS --> 0*/
 int	ft_is_map_char_valid(t_data *data, char *s, int *nb_player, int y)
 {
@@ -86,14 +87,14 @@ int	ft_is_map_char_valid(t_data *data, char *s, int *nb_player, int y)
 		}
 		if (s[i] != '1' && s[i] != '0' && s[i] != ' ' && \
 			s[i] != 'N' && s[i] != 'S' && s[i] != 'W' && s[i] != 'E')
-			return (printf("Error\nInvalid char in map |%c|\n", s[i]), -1);
+			return (ft_perror("invalid char in map"), -1);
 		i++;
 	}
 	return (0);
 }
 
-//Function	: Recupere et verifie le contenue de la map
-//Param 	: La struct data
+//Function	: Retrieve and verify map contents
+//Param 	: The struc t_data
 //Return	: ERROR --> -1 || SUCCESS --> 0
 int	ft_get_map(t_data *data)
 {
@@ -114,8 +115,25 @@ int	ft_get_map(t_data *data)
 		i++;
 	}
 	if (nb_player != 1)
-		return (printf("Error\nIncorrect number of players\n"), -1);
+		return (ft_perror("incorrect number of players"), -1);
 	if (ft_is_map_enclosed_wall(data) != 0)
 		return (-1);
+	return (0);
+}
+
+int	ft_check_same_texture(t_data *data)
+{
+	if (ft_strcmp_cub(data->textures[0].path, data->textures[1].path) == 0)
+		return (ft_perror("same texture"), -1);
+	if (ft_strcmp_cub(data->textures[0].path, data->textures[2].path) == 0)
+		return (ft_perror("same texture"), -1);
+	if (ft_strcmp_cub(data->textures[0].path, data->textures[3].path) == 0)
+		return (ft_perror("same texture"), -1);
+	if (ft_strcmp_cub(data->textures[1].path, data->textures[2].path) == 0)
+		return (ft_perror("same texture"), -1);
+	if (ft_strcmp_cub(data->textures[1].path, data->textures[3].path) == 0)
+		return (ft_perror("same texture"), -1);
+	if (ft_strcmp_cub(data->textures[2].path, data->textures[3].path) == 0)
+		return (ft_perror("same texture"), -1);
 	return (0);
 }

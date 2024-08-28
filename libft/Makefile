@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+         #
+#    By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/21 14:46:54 by rasamad           #+#    #+#              #
-#    Updated: 2024/07/24 11:00:20 by jgavairo         ###   ########.fr        #
+#    Updated: 2024/08/28 13:27:26 by rasamad          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra
 
 SRC = ft_putnbr_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putchar_fd.c ft_striteri.c ft_itoa.c ft_split.c \
-		ft_substr.c ft_calloc.c ft_strdup.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c ft_isprint.c ft_memchr.c ft_memcmp.c ft_memcpy.c \
-		ft_memset.c ft_strchr.c ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_tolower.c ft_toupper.c ft_atoi.c \
+      ft_substr.c ft_calloc.c ft_strdup.c ft_bzero.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c ft_isprint.c ft_memchr.c ft_memcmp.c ft_memcpy.c \
+      ft_memset.c ft_strchr.c ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_tolower.c ft_toupper.c ft_atoi.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -26,23 +26,23 @@ BONUS_OBJ = $(BONUS:.c=.o)
 
 NAME = libft.a
 
-.PHONY : all bonus clean fclean re
+.PHONY: all bonus clean fclean re
 
-all : $(NAME)
+all: $(NAME)
 
-%.o : %.c libft.h
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(NAME) : $(OBJ)
+$(NAME): $(OBJ)
 	ar rcs $(NAME) $(OBJ)
 
-bonus : $(OBJ) $(BONUS_OBJ)
-	$(MAKE) SRC="$(SRC) $(BONUS)"
+bonus: $(OBJ) $(BONUS_OBJ)
+	ar rcs $(NAME) $(OBJ) $(BONUS_OBJ)
 
-clean :
+%.o: %.c libft.h
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
 	rm -rf $(OBJ) $(BONUS_OBJ)
 
-fclean : clean
+fclean: clean
 	rm -f $(NAME)
 
-re : fclean all
+re: fclean all

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/20 00:30:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/21 16:55:13 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/28 12:19:16 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,21 @@ typedef struct s_data
 	t_texture		textures[4];
 }					t_data;
 
+int				ft_get_texture(t_data *data);
+char			*ft_strjoin_cub(char *s1, char *s2);
+int				ft_strlen_cub(char *s, int choice);
+char			*ft_strdup_cub(char *str, int choice);
+void			ft_strcpy(char *dst, const char *src);
+int				ft_fill_color_c(t_data *data, char *gnl, int i);
+int				ft_fill_color_f(t_data *data, char *gnl, int i);
+int				ft_get_color_c(t_data *data, char *gnl);
+int				ft_get_color_f(t_data *data, char *gnl);
+int				ft_get_map(t_data *data);
+int				ft_is_map_enclosed_wall(t_data *data);
+int				ft_cpy_map(t_data *data);
+int				ft_strcmp_cub(char *s1, char *s2);
+int				ft_check_same_texture(t_data *data);
+void			ft_free_data(int ac, t_data data);
 int				ft_perror(char *error);
 void			init_ok(t_data *data);
 void			start_and_dir(t_data *data, t_player *player);
@@ -175,49 +190,12 @@ int				key_release(int keycode, t_data *data);
 int				close_window(t_data *data);
 int				check_wall(t_data *data, double x, double y);
 int				is_wall(t_data *data, double x, double y);
-void			choose_ns(t_player *player);
-void			choose_ew(t_player *player);
-void			player_init(t_player *player);
 void			rotate_right(t_data *data);
 void			rotate_left(t_data *data);
 void			move_back(t_data *data);
 void			fordward(t_data *data);
-char			*ft_strjoin_cub(char *s1, char *s2);
 void			move_right(t_data *data);
 void			move_left(t_data *data);
 void			mini_mapper(t_data *data);
-int				ft_check_arg(t_data *data, char *arg_map);
-int				ft_strlen_cub(char *s, int choice);
-char			*ft_strdup_cub(char *str, int choice);
-void			ft_strcpy(char *dst, const char *src);
-int				ft_get_texture(t_data *data);
-int				ft_get_no(t_data *data, char *gnl);
-int				ft_get_so(t_data *data, char *gnl);
-int				ft_get_we(t_data *data, char *gnl);
-int				ft_get_ea(t_data *data, char *gnl);
-int				ft_fill_color_c(t_data *data, char *gnl, int i);
-int				ft_fill_color_f(t_data *data, char *gnl, int i);
-int				ft_get_color_c(t_data *data, char *gnl);
-int				ft_get_color_f(t_data *data, char *gnl);
-int				ft_get_map(t_data *data);
-int				ft_is_map_enclosed_wall(t_data *data);
-int				ft_cpy_map(t_data *data);
-void			raycasting(t_data *data, t_player *player);
-void			ft_free_data(int ac, t_data data);
-void			raycasting(t_data *data, t_player *player);
-int				ft_check_arg(t_data *data, char *arg_map);
-int				ft_strlen_cub(char *s, int choice);
-int				ft_get_texture(t_data *data);
-char			*ft_strdup_cub(char *str, int choice);
-int				ft_fill_color_c(t_data *data, char *gnl, int i);
-int				ft_fill_color_f(t_data *data, char *gnl, int i);
-int				ft_get_color_c(t_data *data, char *gnl);
-int				ft_get_color_f(t_data *data, char *gnl);
-int				ft_get_no(t_data *data, char *gnl);
-int				ft_get_so(t_data *data, char *gnl);
-int				ft_get_we(t_data *data, char *gnl);
-int				ft_get_ea(t_data *data, char *gnl);
-int				is_wall(t_data *data, double x, double y);
-void			ft_free_data(int ac, t_data data);
 
 #endif

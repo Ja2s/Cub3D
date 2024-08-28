@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_move.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 10:43:31 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/21 17:18:09 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/28 11:50:11 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ void	rotate_left(t_data *data)
 
 	old_dir_x = data->player.dir_x;
 	data->player.dir_x = data->player.dir_x * \
-	cos(0.05) - data->player.dir_y * sin(0.05);
+	cos(0.06) - data->player.dir_y * sin(0.06);
 	data->player.dir_y = old_dir_x * \
-	sin(0.05) + data->player.dir_y * cos(0.05);
+	sin(0.06) + data->player.dir_y * cos(0.06);
 	old_plane_x = data->player.plane_x;
 	data->player.plane_x = data->player.plane_x * \
-	cos(0.05) - data->player.plane_y * sin(0.05);
+	cos(0.06) - data->player.plane_y * sin(0.06);
 	data->player.plane_y = old_plane_x * \
-	sin(0.05) + data->player.plane_y * cos(0.05);
+	sin(0.06) + data->player.plane_y * cos(0.06);
 }
 
 void	rotate_right(t_data *data)
@@ -66,12 +66,12 @@ void	rotate_right(t_data *data)
 
 	old_dir_x = data->player.dir_x;
 	data->player.dir_x = data->player.dir_x * \
-	cos(-0.05) - data->player.dir_y * sin(-0.05);
+	cos(-0.06) - data->player.dir_y * sin(-0.06);
 	data->player.dir_y = old_dir_x * \
-	sin(-0.05) + data->player.dir_y * cos(-0.05);
+	sin(-0.06) + data->player.dir_y * cos(-0.06);
 	old_plane_x = data->player.plane_x;
 	data->player.plane_x = data->player.plane_x * \
-	cos(-0.05) - data->player.plane_y * sin(-0.05);
+	cos(-0.06) - data->player.plane_y * sin(-0.06);
 	data->player.plane_y = old_plane_x * \
-	sin(-0.05) + data->player.plane_y * cos(-0.05);
+	sin(-0.06) + data->player.plane_y * cos(-0.06);
 }

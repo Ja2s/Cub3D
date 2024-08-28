@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 16:13:42 by rasamad           #+#    #+#             */
-/*   Updated: 2024/07/24 10:58:07 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/28 13:29:00 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdint.h>
 # include <unistd.h>
 # include "../src/cub3d.h"
+
+
 
 typedef struct s_list
 {

@@ -3,32 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 17:13:11 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/21 17:17:52 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/28 11:47:23 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	ft_perror(char *error)
+/*	Function	: Verifie l'extension de la map et 
+		initialise les elements de la struct data
+	Param 	: La struct data, et le nom de la map
+	Return	: ERROR --> 1 || SUCCESS --> 0*/
+static int	ft_check_arg(t_data *data, char *arg_map)
 {
-	write(2, "Error\n", 6);
-	write(2, error, ft_strlen(error));
-	write(2, "\n", 1);
-	return (FAILURE);
+	int	len;
+
+	data->map = NULL;
+	data->m = NULL;
+	data->textures[0].path = NULL;
+	data->textures[1].path = NULL;
+	data->textures[2].path = NULL;
+	data->textures[3].path = NULL;
+	data->floor.check = false;
+	data->sky.check = false;
+	len = ft_strlen_cub(arg_map, 0);
+	if (len <= 4)
+		return (-1);
+	if (arg_map[len - 4] != '.')
+		return (-1);
+	if (arg_map[len - 3] != 'c')
+		return (-1);
+	if (arg_map[len - 2] != 'u')
+		return (-1);
+	if (arg_map[len - 1] != 'b')
+		return (-1);
+	return (0);
 }
 
-int	ft_parser(t_data *data, int ac, char **av)
+static int	ft_parser(t_data *data, int ac, char **av)
 {
 	if (ac != 2)
-		return (printf("Error: bad number of arguments\n"), -1);
+		return (ft_perror("bad number of arguments"), -1);
 	if (ft_check_arg(data, av[1]) != 0)
-		return (printf("Error: the map file is not .cub\n"), -1);
+		return (ft_perror("the map file is not .cub"), -1);
 	data->fd = open(av[1], O_RDONLY);
 	if (data->fd == -1)
-		return (printf("Error: open failed\n"), -1);
+		return (ft_perror("open failed"), -1);
 	if (ft_get_texture(data) < 6)
 		return (-1);
 	if (ft_get_map(data) != 0)

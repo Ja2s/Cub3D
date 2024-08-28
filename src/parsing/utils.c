@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgavairo <jgavairo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 18:32:15 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/21 14:33:09 by jgavairo         ###   ########.fr       */
+/*   Updated: 2024/08/26 13:14:04 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,39 +24,9 @@ int	ft_strlen_cub(char *s, int choice)
 		while (s[i] && !(s[i] >= '0' && s[i] <= '9'))
 			i++;
 	else if (choice == 2)
-		while (s[i] && s[i] != '\n')
+		while (s[i] && s[i] != ' ' && s[i] != '\n')
 			i++;
 	return (i);
-}
-
-/*	Function	: Verifie l'extension de la map et 
-		initialise les elements de la struct data
-	Param 	: La struct data, et le nom de la map
-	Return	: ERROR --> 1 || SUCCESS --> 0*/
-int	ft_check_arg(t_data *data, char *arg_map)
-{
-	int	len;
-
-	data->map = NULL;
-	data->m = NULL;
-	data->textures[0].path = NULL;
-	data->textures[1].path = NULL;
-	data->textures[2].path = NULL;
-	data->textures[3].path = NULL;
-	data->floor.check = false;
-	data->sky.check = false;
-	len = ft_strlen_cub(arg_map, 0);
-	if (len <= 4)
-		return (-1);
-	if (arg_map[len - 4] != '.')
-		return (-1);
-	if (arg_map[len - 3] != 'c')
-		return (-1);
-	if (arg_map[len - 2] != 'u')
-		return (-1);
-	if (arg_map[len - 1] != 'b')
-		return (-1);
-	return (0);
 }
 
 char	*ft_strdup_cub(char *str, int choice)
@@ -92,61 +62,6 @@ void	ft_strcpy(char *dst, const char *src)
 	dst[i] = '\0';
 }
 
-void	free_mlx(t_data *data)
-{
-	if (data->ok_win == 1)
-		mlx_destroy_window(data->mlx, data->win);
-	if (data->ok_img == 1)
-		mlx_destroy_image(data->mlx, data->img);
-	if (data->textures[0].loaded == 1)
-		mlx_destroy_image(data->mlx, data->textures[0].img);
-	if (data->textures[1].loaded == 1)
-		mlx_destroy_image(data->mlx, data->textures[1].img);
-	if (data->textures[2].loaded == 1)
-		mlx_destroy_image(data->mlx, data->textures[2].img);
-	if (data->textures[3].loaded == 1)
-		mlx_destroy_image(data->mlx, data->textures[3].img);
-	mlx_destroy_display(data->mlx);
-	free(data->mlx);
-}
-
-void	free_path(t_data *data)
-{
-	if (data->textures[0].path)
-		free(data->textures[0].path);
-	if (data->textures[1].path)
-		free(data->textures[1].path);
-	if (data->textures[2].path)
-		free(data->textures[2].path);
-	if (data->textures[3].path)
-		free(data->textures[3].path);
-}
-
-void	ft_free_data(int ac, t_data data)
-{
-	int	i;
-
-	if (ac != 2)
-		return ;
-	free_path(&data);
-	i = 0;
-	if (data.m)
-	{
-		while (data.m[i])
-			free(data.m[i++]);
-		free(data.m);
-	}
-	i = 0;
-	if (data.map)
-	{
-		while (data.map[i])
-			free(data.map[i++]);
-		free(data.map);
-	}
-	if (data.ok_map == 1 && data.ok_mlx == 1)
-		free_mlx(&data);
-}
-
 char	*ft_strjoin_cub(char *s1, char *s2)
 {
 	char		*s3;
@@ -173,4 +88,23 @@ char	*ft_strjoin_cub(char *s1, char *s2)
 		s3[i++] = s2[j++];
 	s3[i] = '\0';
 	return (s3);
+}
+
+int	ft_strcmp_cub(char *s1, char *s2)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (s1[i] == '.' || s1[i] == '/')
+		i++;
+	while (s2[j] == '.' || s2[j] == '/')
+		j++;
+	while (s1[i] && s1[i] == s2[j])
+	{
+		i++;
+		j++;
+	}
+	return (s1[i] - s2[j]);
 }
