@@ -6,7 +6,7 @@
 /*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/08 13:32:58 by jgavairo          #+#    #+#             */
-/*   Updated: 2024/08/28 13:31:15 by rasamad          ###   ########.fr       */
+/*   Updated: 2024/08/28 14:55:37 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,3 @@ void		ft_bzero(void *s, size_t n, size_t start);
 void		*ft_memmove(void *dest, const void *src, size_t n);
 
 #endif
-

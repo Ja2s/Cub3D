@@ -6,7 +6,7 @@
 /*   By: rasamad <rasamad@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 16:13:42 by rasamad           #+#    #+#             */
-/*   Updated: 2024/08/28 13:29:00 by rasamad          ###   ########.fr       */
+/*   Updated: 2024/08/28 14:55:50 by rasamad          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include <stdint.h>
 # include <unistd.h>
 # include "../src/cub3d.h"
-
-
 
 typedef struct s_list
 {
